@@ -1,6 +1,7 @@
 class Element
 {
 public:
+	Element();
 	Element(float length, float width);
 
 	//getters
