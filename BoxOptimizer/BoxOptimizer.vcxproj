@@ -71,12 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)inc;$(IncludePath)</IncludePath>
-    <SourcePath>$(ProjectDir)src;$(SourcePath)</SourcePath>
+    <IncludePath>$(ProjectDir)inc;$(ProjectDir)solver;$(IncludePath)</IncludePath>
+    <SourcePath>$(ProjectDir)src;$(ProjectDir)solver;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)inc;$(IncludePath)</IncludePath>
-    <SourcePath>$(ProjectDir)src;$(SourcePath)</SourcePath>
+    <IncludePath>$(ProjectDir)inc;$(ProjectDir)solver;$(IncludePath)</IncludePath>
+    <SourcePath>$(ProjectDir)src;$(ProjectDir)solver;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -136,10 +136,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BoxOptimizer.cpp" />
+    <ClCompile Include="solver\FindSolution.cpp" />
+    <ClCompile Include="solver\Solver.cpp" />
     <ClCompile Include="src\Element.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\Element.h" />
+    <ClInclude Include="solver\Solver.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
