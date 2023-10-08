@@ -1,14 +1,15 @@
 #include "Element.h"
 #include <iostream>
 
-Element::Element()
+Element_T::Element_T()
 {
 }
 
-Element::Element(float length, float width)
+Element_T::Element_T(float width, float length, int id)
 {
 	_length = length;
 	_width = width;
+	_id = id;
 	std::cout << "Element initialized!\n";
 }
 
