@@ -1,4 +1,5 @@
 #pragma once
+
 class Position_T
 {
 public:
@@ -16,3 +17,5 @@ public:
 	float pos_width, pos_length;
 };
 
+bool operator== (Position_T pos1, Position_T pos2);
+bool operator!= (Position_T pos1, Position_T pos2);
