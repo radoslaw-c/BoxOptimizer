@@ -3,5 +3,7 @@
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    Solver_T Solver;
+    Solver.InitializeElementsManually();
+    Solver.Solve();
 }
