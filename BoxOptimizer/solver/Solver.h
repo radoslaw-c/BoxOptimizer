@@ -2,6 +2,26 @@
 #include <vector>
 #include <iostream>
 
+class Node_T
+{
+public:
+	Node_T() {};
+	//and that's a copy -- a way to optimize memory usage by passing a reference instead of value
+	Node_T(Element_T Element)
+	{
+		this->Element = Element;
+	}
+
+	Node_T(Element_T Element, Node_T* ParentNode)
+	{
+		this->Element = Element;
+		this->ParentNode = ParentNode;
+	}
+	Element_T Element;
+	Node_T* ParentNode = nullptr;
+	std::vector<Node_T> ChildNodes;
+};
+
 class Solver_T
 {
 public:
@@ -12,13 +32,16 @@ public:
 
 private:
 	void FindSolutions();
+	void InitializeSolutionTree();
+	void PopulateSolutionTree(Element_T Element, Node_T& ChildNodes);
+	std::vector<Position_T> FindAvailableSlots(Node_T currentNode);
+	std::vector<Element_T> GetAncestors(Node_T node);
+	bool IsAncestor(Element_T Element);
 
-	Element_T* ElementList;
-
-
-	std::vector<float*> possiblePlacements;
-
+	//Element_T* ElementList;
+	std::vector<Element_T> ElementList;
 	int numberOfElements;
 
+	Node_T RootNode;
 };
 
