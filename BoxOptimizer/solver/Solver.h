@@ -16,16 +16,18 @@ public:
 	{
 		this->Element = Element;
 		this->ParentNode = ParentNode;
+		TreeHierarchy += ParentNode->TreeHierarchy;
 	}
 	Element_T Element;
 	Node_T* ParentNode = nullptr;
 	std::vector<Node_T> ChildNodes;
+	int TreeHierarchy = 1;
 };
 
 class Solver_T
 {
 public:
-	Solver_T();
+	Solver_T() {};
 	void InitializeElementsManually();
 
 	void Solve(); // :)
@@ -36,11 +38,13 @@ private:
 	void PopulateSolutionTree(Element_T Element, Node_T& ChildNodes);
 	std::vector<Position_T> FindAvailableSlots(Node_T currentNode);
 	std::vector<Element_T> GetAncestors(Node_T node);
-	bool IsAncestor(Element_T Element);
+	bool IsLastNode(Node_T Node);
+	bool IsAncestor(Element_T Element, Node_T Node);
+	
 
 	//Element_T* ElementList;
 	std::vector<Element_T> ElementList;
-	int numberOfElements;
+	int numberOfElements = 0;
 
 	Node_T RootNode;
 };

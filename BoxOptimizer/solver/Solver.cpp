@@ -1,15 +1,14 @@
 #include "Solver.h"
 #include <iostream>
 
-Solver_T::Solver_T()
-{
-}
 
 void Solver_T::InitializeElementsManually()
 {
 	ElementList.push_back(Element_T(5, 11, 1));
 	ElementList.push_back(Element_T(5, 3, 2));
-	numberOfElements = 2;
+	ElementList.push_back(Element_T(6, 2, 3));
+	ElementList.push_back(Element_T(7, 3, 4));
+	numberOfElements = 4;
 }
 
 /*
@@ -76,7 +75,23 @@ std::vector<Element_T> Solver_T::GetAncestors(Node_T node)
 	return ancestors;
 }
 
-bool Solver_T::IsAncestor(Element_T Element)
+bool Solver_T::IsLastNode(Node_T Node)
 {
+	return Node.TreeHierarchy == numberOfElements;
+}
+
+//
+// checks if  the object that is about to be inserted is already a part of a partent node of a givent node
+//
+
+bool Solver_T::IsAncestor(Element_T Element, Node_T Node)
+{
+	std::vector<Element_T> ancestors = GetAncestors(Node);
+
+	for (Element_T ancestor : ancestors)
+	{
+		if (Element.getId() == ancestor.getId())
+			return true;
+	}
 	return false;
 }

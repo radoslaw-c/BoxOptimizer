@@ -16,19 +16,19 @@ void Solver_T::FindSolutions()
 		PopulateSolutionTree(ElementList[i], RootNode);
 	}
 
-	//for every child add child nodes
-	for (auto CurrentNode : RootNode.ChildNodes)
-	{
-		for (Element_T Element : ElementList)
-		{
-			if (CurrentNode.Element.getId() != Element.getId() && Element.getId() != 1)
-			{
-				//then add this element as a child to the ChildNode
-				//nie przetestowane, idê pisaæ znajdowanie slotów
-				PopulateSolutionTree(Element, CurrentNode);
-			}
-		}
-	}
+	////for every child add child nodes
+	//for (auto CurrentNode : RootNode.ChildNodes)
+	//{
+	//	for (Element_T Element : ElementList)
+	//	{
+	//		if (CurrentNode.Element.getId() != Element.getId() && Element.getId() != 1)
+	//		{
+	//			//then add this element as a child to the ChildNode
+	//			//nie przetestowane, idê pisaæ znajdowanie slotów
+	//			PopulateSolutionTree(Element, CurrentNode);
+	//		}
+	//	}
+	//}
 }
 
 void Solver_T::InitializeSolutionTree()
@@ -43,23 +43,27 @@ void Solver_T::InitializeSolutionTree()
 void Solver_T::PopulateSolutionTree(Element_T Element, Node_T& currentNode)
 {
 	auto availableSlots = FindAvailableSlots(currentNode);
-	for (auto slot : availableSlots)
+	//for (auto slot : availableSlots)
+	for (int i = 0; i < availableSlots.size(); i++)
 	{
+		Position_T slot = availableSlots[i];
 		Element.setPosition(slot);
+
 		Node_T nodeToInsert = Node_T(Element, &currentNode);
 		currentNode.ChildNodes.push_back(nodeToInsert);	
 
-		std::vector<Element_T> test = GetAncestors(currentNode.ChildNodes.back());
+		while (!IsLastNode(nodeToInsert))
+		{
+			Node_T& head = currentNode.ChildNodes.back();
 
-		//if (currentNode.ChildNodes.back() != lastNode)
-		//{
-		//	for (auto CurrentElement : ElementList)
-		//	{
-		//		if (CurrentElement is no ancestor)
-		//		{
-		//			PopulateSolutionTree...
-		//		}
-		//	}
-		//}
+			for (const auto& ElementToInsert : ElementList)
+			{
+				if (!IsAncestor(ElementToInsert, head))
+				{
+					PopulateSolutionTree(ElementToInsert, head);
+				}
+			}
+			break;
+		}
 	}
 }
