@@ -1,6 +1,7 @@
-#include "Element.h"
+//#include "Element.h"
 #include "Calibrations_T.h"
 #include "Node_T.h"
+#include "Solution_T.h"
 #include <vector>
 #include <iostream>
 
@@ -14,7 +15,6 @@ public:
 
 private:
 	void FindSolutions();
-	void ValidateSolutions();
 	void InitializeSolutionTree();
 	void PopulateSolutionTree(Element_T Element, Node_T& ChildNodes);
 	std::vector<Position_T> FindAvailableSlots(Node_T currentNode);
@@ -28,7 +28,8 @@ private:
 	
 
 	std::vector<Element_T> ElementList;
-	std::vector<Node_T*> SolutionList;
+	//std::vector<Node_T*> SolutionList;
+	std::vector<Solution_T> SolutionList;
 	int numberOfElements = 0;
 	float totalElementArea = 0;
 
