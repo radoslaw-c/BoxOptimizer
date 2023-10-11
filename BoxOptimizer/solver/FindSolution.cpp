@@ -160,16 +160,6 @@ void Solver_T::CalculateTotalElementArea()
 	}
 }
 
-float Solver_T::CalculateOutlineArea(Node_T Node)
-{
-	Element_T Element = Node.Element;
-	float maxWidth = Element.getPosition().pos_width +
-		Element.getWidth();
-	float maxLength = Element.getPosition().pos_length +
-		Element.getLength();
-
-	return maxWidth * maxLength;
-}
 /*
 * This function is supposed to contain conditions to check if
 * the node is about to be inserted makes entire config good enough.
@@ -182,7 +172,6 @@ float Solver_T::CalculateOutlineArea(Node_T Node)
 bool Solver_T::NodeValid(Node_T Node)
 {
 	bool areaValid = CalculateOutlineArea(Node) <= totalElementArea * calib.maxAllowedArea;
-
 
 	return areaValid && true;
 }

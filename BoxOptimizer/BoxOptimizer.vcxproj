@@ -136,6 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BoxOptimizer.cpp" />
+    <ClCompile Include="src\CalculateOutlineArea.cpp" />
     <ClCompile Include="src\Solution_T.cpp" />
     <ClCompile Include="src\Node_T.cpp" />
     <ClCompile Include="src\Calibrations_T.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="inc\Node_T.h" />
     <ClInclude Include="inc\Solution_T.h" />
     <ClInclude Include="solver\Solver.h" />
+    <ClInclude Include="inc\CalculateOutlineArea.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

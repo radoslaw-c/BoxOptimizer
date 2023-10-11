@@ -1,5 +1,6 @@
 #pragma once
 #include "Node_T.h"
+#include "CalculateOutlineArea.h"
 
 class Solution_T
 {
