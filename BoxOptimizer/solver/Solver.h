@@ -40,11 +40,14 @@ private:
 	std::vector<Element_T> GetAncestors(Node_T node);
 	bool IsLastNode(Node_T Node);
 	bool IsAncestor(Element_T Element, Node_T Node);
+
+	void CalculateTotalElementArea();
 	
 
 	//Element_T* ElementList;
 	std::vector<Element_T> ElementList;
 	int numberOfElements = 0;
+	float totalElementArea = 0;
 
 	Node_T RootNode;
 };
