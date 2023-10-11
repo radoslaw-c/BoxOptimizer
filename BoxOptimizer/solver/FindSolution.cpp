@@ -43,20 +43,26 @@ void Solver_T::PopulateSolutionTree(Element_T Element, Node_T& currentNode)
 		Element.setPosition(slot);
 
 		Node_T nodeToInsert = Node_T(Element, &currentNode);
-		currentNode.ChildNodes.push_back(nodeToInsert);	
-
-		while (!IsLastNode(nodeToInsert))
+		if (NodeValid(nodeToInsert))
 		{
-			Node_T& head = currentNode.ChildNodes.back();
-
-			for (const auto& ElementToInsert : ElementList)
+			currentNode.ChildNodes.push_back(nodeToInsert);
+			while (!IsLastNode(nodeToInsert))
 			{
-				if (!IsAncestor(ElementToInsert, head))
+				Node_T& head = currentNode.ChildNodes.back();
+
+				for (const auto& ElementToInsert : ElementList)
 				{
-					PopulateSolutionTree(ElementToInsert, head);
+					if (!IsAncestor(ElementToInsert, head))
+					{
+						PopulateSolutionTree(ElementToInsert, head);
+					}
 				}
+				break;
 			}
-			break;
+
+			auto solution = currentNode.ChildNodes.back();
+			if (IsLastNode(solution))
+				SolutionList.push_back(&currentNode.ChildNodes.back());
 		}
 	}
 }

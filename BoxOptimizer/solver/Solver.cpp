@@ -1,6 +1,10 @@
 #include "Solver.h"
 #include <iostream>
 
+Solver_T::Solver_T()
+{
+	SolutionList.reserve(1000);
+}
 
 void Solver_T::InitializeElementsManually()
 {
@@ -121,4 +125,20 @@ float Solver_T::CalculateOutlineArea(Node_T Node)
 		Element.getLength();
 
 	return maxWidth * maxLength;
+}
+/*
+* This function is supposed to contain conditions to check if
+* the node is about to be inserted makes entire config good enough.
+* 
+* Conditons:
+* 1. Outline area can't be greater than 2x total area of individual elements.
+* 
+*/
+
+bool Solver_T::NodeValid(Node_T Node)
+{
+	bool areaValid = CalculateOutlineArea(Node) <= totalElementArea * calib.maxAllowedArea;
+
+
+	return areaValid && true;
 }
