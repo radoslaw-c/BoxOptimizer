@@ -136,6 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BoxOptimizer.cpp" />
+    <ClCompile Include="src\Node_T.cpp" />
     <ClCompile Include="src\Calibrations_T.cpp" />
     <ClCompile Include="src\Position.cpp" />
     <ClCompile Include="solver\FindSolution.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="inc\Calibrations_T.h" />
     <ClInclude Include="inc\Element.h" />
     <ClInclude Include="inc\Position.h" />
+    <ClInclude Include="inc\Node_T.h" />
     <ClInclude Include="solver\Solver.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
