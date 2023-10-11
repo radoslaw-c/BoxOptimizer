@@ -28,7 +28,15 @@ void Solver_T::InitializeSolutionTree()
 void Solver_T::PopulateSolutionTree(Element_T Element, Node_T& currentNode)
 {
 	auto availableSlots = FindAvailableSlots(currentNode);
-	//for (auto slot : availableSlots)
+	int numberOfPossibleChildren = availableSlots.size() * numberOfElements;
+
+	if (currentNode.ChildNodes.capacity() < numberOfPossibleChildren)
+	{
+		//this is more than necessery
+		//possible way to optimize memory usage
+		currentNode.ChildNodes.reserve(numberOfPossibleChildren);
+	}
+
 	for (int i = 0; i < availableSlots.size(); i++)
 	{
 		Position_T slot = availableSlots[i];
