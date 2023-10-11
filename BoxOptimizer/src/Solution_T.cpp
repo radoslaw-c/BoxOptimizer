@@ -8,5 +8,14 @@ Solution_T::Solution_T(Node_T* Node)
 
 void Solution_T::Classify()
 {
+	outlineArea = CalculateOutlineArea(SolutionNode);
+	LayerValidity();
 
+
+
+}
+
+void Solution_T::LayerValidity()
+{
+	//coming soon
 }

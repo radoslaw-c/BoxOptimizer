@@ -10,5 +10,8 @@ public:
 
 private:
 	void Classify();
+
+	void LayerValidity();
+	float outlineArea = 0;
 };
 

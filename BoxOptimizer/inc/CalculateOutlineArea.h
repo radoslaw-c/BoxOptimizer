@@ -3,3 +3,4 @@
 
 
 float CalculateOutlineArea(Node_T Node);
+float CalculateOutlineArea(const Node_T* Node);
