@@ -10,7 +10,7 @@ void Solver_T::InitializeElementsManually()
 	ElementList.push_back(Element_T(7, 3, 4));
 	numberOfElements = 4;
 
-
+	CalculateTotalElementArea();
 }
 
 /*
@@ -108,6 +108,17 @@ void Solver_T::CalculateTotalElementArea()
 
 	for (auto Element : ElementList)
 	{
-		totalElementArea += 
+		totalElementArea += Element.getLength() * Element.getWidth();
 	}
+}
+
+float Solver_T::CalculateOutlineArea(Node_T Node)
+{
+	Element_T Element = Node.Element;
+	float maxWidth = Element.getPosition().pos_width +
+		Element.getWidth();
+	float maxLength = Element.getPosition().pos_length +
+		Element.getLength();
+
+	return maxWidth * maxLength;
 }
