@@ -10,25 +10,10 @@ void Solver_T::FindSolutions()
 {
 	InitializeSolutionTree();
 
-	//this boilds first layer of children, adds ALL remaining elements as children to the root
 	for (int i = 1; i < numberOfElements; i++)
 	{
 		PopulateSolutionTree(ElementList[i], RootNode);
 	}
-
-	////for every child add child nodes
-	//for (auto CurrentNode : RootNode.ChildNodes)
-	//{
-	//	for (Element_T Element : ElementList)
-	//	{
-	//		if (CurrentNode.Element.getId() != Element.getId() && Element.getId() != 1)
-	//		{
-	//			//then add this element as a child to the ChildNode
-	//			//nie przetestowane, idê pisaæ znajdowanie slotów
-	//			PopulateSolutionTree(Element, CurrentNode);
-	//		}
-	//	}
-	//}
 }
 
 void Solver_T::InitializeSolutionTree()
