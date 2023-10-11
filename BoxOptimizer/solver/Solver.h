@@ -35,6 +35,7 @@ public:
 
 private:
 	void FindSolutions();
+	void ValidateSolutions();
 	void InitializeSolutionTree();
 	void PopulateSolutionTree(Element_T Element, Node_T& ChildNodes);
 	std::vector<Position_T> FindAvailableSlots(Node_T currentNode);
