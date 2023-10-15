@@ -1,6 +1,7 @@
 #pragma once
 #include "Calibrations_T.h"
 #include "Solution_T.h"
+#include "ConsoleVisualiser_T.h"
 #include <vector>
 #include <iostream>
 

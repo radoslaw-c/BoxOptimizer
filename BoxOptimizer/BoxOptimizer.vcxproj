@@ -136,6 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BoxOptimizer.cpp" />
+    <ClCompile Include="src\ConsoleVisualiser_T.cpp" />
     <ClCompile Include="src\CalculateOutlineArea.cpp" />
     <ClCompile Include="src\Solution_T.cpp" />
     <ClCompile Include="src\Node_T.cpp" />
@@ -146,6 +147,7 @@
     <ClCompile Include="src\Element.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\ConsoleVisualiser_T.h" />
     <ClInclude Include="inc\Calibrations_T.h" />
     <ClInclude Include="inc\Element.h" />
     <ClInclude Include="inc\Position.h" />

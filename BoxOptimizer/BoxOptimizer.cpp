@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Solver.h"
+#include "ConsoleVisualiser_T.h"
 
 int main()
 {

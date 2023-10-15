@@ -22,6 +22,7 @@ void Solver_T::Solve()
 	FindSolutions();
 	//find solution with lowest area
 
-
+	ConsoleVisualiser_T consolePrint(SolutionList.front());
+	consolePrint.DrawSolution();
 }
 
