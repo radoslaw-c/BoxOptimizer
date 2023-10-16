@@ -45,9 +45,9 @@ void ConsoleVisualiser_T::DrawSolution()
 						solutionMatrix[len][width] = '|';
 					else
 					{
-						if (len == std::floor(Node->Element.getLength() / 2) &&
-							width == std::floor(Node->Element.getWidth() / 2))
-							solutionMatrix[len][width] = (char)Node->Element.getId();
+						if (len == std::floor(Node->Element.getLength() / 2 + Node->Element.getPosition().pos_length) &&
+							width == std::floor(Node->Element.getWidth() / 2) + Node->Element.getPosition().pos_width)
+							solutionMatrix[len][width] = Node->Element.getId() + 48;
 						else
 							solutionMatrix[len][width] = ' ';
 					}
