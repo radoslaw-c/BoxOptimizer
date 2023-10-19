@@ -56,7 +56,10 @@ void Solver_T::PopulateSolutionTree(Element_T Element, Node_T& currentNode)
 
 			auto solution = currentNode.ChildNodes.back();
 			if (IsLastNode(solution))
-				SolutionList.push_back(&currentNode.ChildNodes.back());
+			{
+				Solution_T solutionToAppend = Solution_T(&currentNode.ChildNodes.back(), solutionID++);
+				SolutionList.push_back(solutionToAppend);
+			}
 		}
 	}
 }

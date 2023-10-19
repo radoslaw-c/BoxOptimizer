@@ -11,8 +11,10 @@ void Solver_T::InitializeElementsManually()
 	ElementList.push_back(Element_T(5, 5, 1));
 	ElementList.push_back(Element_T(5, 5, 2));
 	ElementList.push_back(Element_T(5, 5, 3));
-	//ElementList.push_back(Element_T(7, 3, 4));
-	numberOfElements = 3;
+	ElementList.push_back(Element_T(5, 5, 4));
+	ElementList.push_back(Element_T(5, 5, 5));
+	//ElementList.push_back(Element_T(5, 5, 6));
+	numberOfElements = 5;
 
 	CalculateTotalElementArea();
 }
@@ -24,21 +26,21 @@ void Solver_T::Solve()
 
 	Solution_T* bestSolution = &SolutionList.front();
 
-	//for (int i = 0; i < SolutionList.size(); i++)
-	//{
-	//	if (SolutionList[i].getOutlineArea() < bestSolution->getOutlineArea())
-	//		bestSolution = &SolutionList[i];
-	//}
-
-	//ConsoleVisualiser_T consolePrint(*bestSolution);
-	//consolePrint.DrawSolution();
-
-
 	for (int i = 0; i < SolutionList.size(); i++)
 	{
-		ConsoleVisualiser_T consolePrint(SolutionList[i]);
-		consolePrint.DrawSolution();
-		consolePrint.PrintSolutionDetails();
+		if (SolutionList[i].getOutlineArea() < bestSolution->getOutlineArea())
+			bestSolution = &SolutionList[i];
 	}
+
+	ConsoleVisualiser_T consolePrint(*bestSolution);
+	consolePrint.DrawSolution();
+	consolePrint.PrintSolutionDetails();
+
+	//for (int i = 0; i < SolutionList.size(); i++)
+	//{
+	//	ConsoleVisualiser_T consolePrint(SolutionList[i]);
+	//	consolePrint.DrawSolution();
+	//	consolePrint.PrintSolutionDetails();
+	//}
 }
 

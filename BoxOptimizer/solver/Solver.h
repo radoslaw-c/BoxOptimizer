@@ -24,11 +24,11 @@ private:
 
 	void CalculateTotalElementArea();
 	bool NodeValid(const Node_T* Node);
-	
 
 	std::vector<Element_T> ElementList;
 	std::vector<Solution_T> SolutionList;
 	int numberOfElements = 0;
+	int solutionID = 0;
 	float totalElementArea = 0;
 
 	Calibrations_T calib;

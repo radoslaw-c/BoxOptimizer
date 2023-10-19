@@ -6,6 +6,13 @@ Solution_T::Solution_T(Node_T* Node)
 	Classify();
 }
 
+Solution_T::Solution_T(Node_T* Node, int id)
+{
+	SolutionNode = Node;
+	this->id = id;
+	Classify();
+}
+
 void Solution_T::Classify()
 {
 	outlineArea = CalculateOutlineArea(SolutionNode);
