@@ -23,7 +23,7 @@ private:
 	bool IsAncestor(Element_T Element, Node_T Node);
 
 	void CalculateTotalElementArea();
-	bool NodeValid(Node_T Node);
+	bool NodeValid(const Node_T* Node);
 	
 
 	std::vector<Element_T> ElementList;

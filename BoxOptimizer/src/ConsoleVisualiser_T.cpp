@@ -123,3 +123,10 @@ std::vector<Position_T> FindAvailableSlots(Node_T currentNode)
 
 	return availableSlots;
 }
+
+void ConsoleVisualiser_T::PrintSolutionDetails()
+{
+	std::cout << "Outline area: " << Solution.getOutlineArea() << std::endl;
+	std::cout << "\n===================================\n";
+
+}

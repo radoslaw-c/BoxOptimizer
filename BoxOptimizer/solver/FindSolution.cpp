@@ -37,7 +37,7 @@ void Solver_T::PopulateSolutionTree(Element_T Element, Node_T& currentNode)
 		Element.setPosition(slot);
 
 		Node_T nodeToInsert = Node_T(Element, &currentNode);
-		if (NodeValid(nodeToInsert))
+		if (NodeValid(&nodeToInsert))
 		{
 			currentNode.ChildNodes.push_back(nodeToInsert);
 			while (!IsLastNode(nodeToInsert))
@@ -169,7 +169,7 @@ void Solver_T::CalculateTotalElementArea()
 *
 */
 
-bool Solver_T::NodeValid(Node_T Node)
+bool Solver_T::NodeValid(const Node_T* Node)
 {
 	bool areaValid = CalculateOutlineArea(Node) <= totalElementArea * calib.maxAllowedArea;
 

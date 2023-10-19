@@ -8,11 +8,11 @@ Solver_T::Solver_T()
 
 void Solver_T::InitializeElementsManually()
 {
-	ElementList.push_back(Element_T(5, 11, 1));
-	ElementList.push_back(Element_T(5, 3, 2));
-	ElementList.push_back(Element_T(6, 2, 3));
-	ElementList.push_back(Element_T(7, 3, 4));
-	numberOfElements = 4;
+	ElementList.push_back(Element_T(5, 5, 1));
+	ElementList.push_back(Element_T(5, 5, 2));
+	ElementList.push_back(Element_T(5, 5, 3));
+	//ElementList.push_back(Element_T(7, 3, 4));
+	numberOfElements = 3;
 
 	CalculateTotalElementArea();
 }
@@ -22,7 +22,23 @@ void Solver_T::Solve()
 	FindSolutions();
 	//find solution with lowest area
 
-	ConsoleVisualiser_T consolePrint(SolutionList.front());
-	consolePrint.DrawSolution();
+	Solution_T* bestSolution = &SolutionList.front();
+
+	//for (int i = 0; i < SolutionList.size(); i++)
+	//{
+	//	if (SolutionList[i].getOutlineArea() < bestSolution->getOutlineArea())
+	//		bestSolution = &SolutionList[i];
+	//}
+
+	//ConsoleVisualiser_T consolePrint(*bestSolution);
+	//consolePrint.DrawSolution();
+
+
+	for (int i = 0; i < SolutionList.size(); i++)
+	{
+		ConsoleVisualiser_T consolePrint(SolutionList[i]);
+		consolePrint.DrawSolution();
+		consolePrint.PrintSolutionDetails();
+	}
 }
 
