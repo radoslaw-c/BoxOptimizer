@@ -2,6 +2,8 @@
 #include "Element.h"
 #include <vector>
 
+typedef std::vector<Position_T> SlotList;
+
 class Node_T
 {
 public:
@@ -12,15 +14,15 @@ public:
 		this->Element = Element;
 	}
 
-	Node_T(Element_T Element, Node_T* ParentNode)
-	{
-		this->Element = Element;
-		this->ParentNode = ParentNode;
-		TreeLevel += ParentNode->TreeLevel;
-	}
+	Node_T(Element_T Element, Node_T* ParentNode, Position_T Position);
+
 	Element_T Element;
 	Node_T* ParentNode = nullptr;
 	std::vector<Node_T> ChildNodes;
+	SlotList availableSlots;
 	int TreeLevel = 1;
 	Position_T Position;
+
+private:
+	void FindAvailableSlots();
 };

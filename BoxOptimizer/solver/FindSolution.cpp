@@ -2,19 +2,24 @@
 
 void Solver_T::FindSolutions()
 {
+	InitializeSolutionTree();
 
+	PopulateSolutionTree();
+}
+
+void Solver_T::InitializeSolutionTree()
+{
+	Position_T RootPos = Position_T(0, 0);
+	RootNode = Node_T(ElementList.front(), NULL, RootPos);
+	ElementList.erase(ElementList.begin());
+}
+
+void Solver_T::PopulateSolutionTree()
+{
+	
 }
 
 
-
-// void Solver_T::InitializeSolutionTree()
-// {
-// 	Position_T initialPosition = Position_T(0, 0);
-// 	RootNode = Node_T(ElementList[0]); //REMARK does not change values of original elements
-// 
-// 	//initialize position
-// 	RootNode.Position = initialPosition;
-// }
 // 
 // void Solver_T::PopulateSolutionTree(Element_T Element, Node_T& currentNode)
 // {
