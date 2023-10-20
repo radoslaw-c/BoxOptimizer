@@ -16,7 +16,7 @@ void Solver_T::InitializeElementsManually()
 	//ElementList.push_back(Element_T(5, 5, 6));
 	numberOfElements = 5;
 
-	CalculateTotalElementArea();
+	//CalculateTotalElementArea();
 }
 
 void Solver_T::Solve()
