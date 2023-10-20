@@ -11,7 +11,7 @@ public:
 	//getters
 	float getLength() { return _length; }
 	float getWidth() { return _width; }
-	int getId() { return _id; }
+	int getId() const { return _id; }
 
 	//setters
 	void setLength(float len) { _length = len; }

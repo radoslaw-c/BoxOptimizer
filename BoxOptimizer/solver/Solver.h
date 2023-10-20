@@ -5,6 +5,8 @@
 #include <vector>
 #include <iostream>
 
+typedef std::vector<Solution_T> SolutionList_T;
+
 class Solver_T
 {
 public:
@@ -17,18 +19,10 @@ private:
 	void FindSolutions();
 	void InitializeSolutionTree();
 	
-	void PopulateSolutionTree();
-	//void PopulateSolutionTree(Element_T Element, Node_T& ChildNodes);
-	//std::vector<Position_T> FindAvailableSlots(Node_T currentNode);
-	//std::vector<Element_T> GetAncestors(Node_T node);
-	//bool IsLastNode(Node_T Node);
-	//bool IsAncestor(Element_T Element, Node_T Node);
-
-	//void CalculateTotalElementArea();
-	//bool NodeValid(const Node_T* Node);
+	void PopulateSolutionTree(Node_T& currentNode);
 
 	std::vector<Element_T> ElementList;
-	std::vector<Solution_T> SolutionList;
+	SolutionList_T SolutionList;
 	int numberOfElements = 0;
 	int solutionID = 0;
 	float totalElementArea = 0;

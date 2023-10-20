@@ -1,6 +1,7 @@
 #pragma once
 #include "Element.h"
 #include <vector>
+#include <algorithm>
 
 typedef std::vector<Position_T> SlotList;
 
@@ -15,6 +16,7 @@ public:
 	}
 
 	Node_T(Element_T Element, Node_T* ParentNode, Position_T Position);
+	bool isValid() const;
 
 	Element_T Element;
 	Node_T* ParentNode = nullptr;

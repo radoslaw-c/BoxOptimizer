@@ -13,8 +13,8 @@ void Solver_T::InitializeElementsManually()
 	ElementList.push_back(Element_T(5, 5, 3));
 	ElementList.push_back(Element_T(5, 5, 4));
 	ElementList.push_back(Element_T(5, 5, 5));
-	//ElementList.push_back(Element_T(5, 5, 6));
-	numberOfElements = 5;
+	ElementList.push_back(Element_T(5, 5, 6));
+	numberOfElements = 6;
 
 	//CalculateTotalElementArea();
 }
