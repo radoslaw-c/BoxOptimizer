@@ -15,20 +15,20 @@ void ConsoleVisualiser_T::DrawSolution()
 	Node_T* Node = Solution.SolutionNode;
 	while (Node != NULL)
 	{
-		const Element_T* Element = &Node->Element;
-		Position_T ElementEnd = Position_T(Node->Element.getPosition().pos_width + Node->Element.getWidth(),
-			Node->Element.getPosition().pos_length + Node->Element.getLength());
+		//const Element_T* Element = &Node->Element;
+		Position_T ElementEnd = Position_T(Node->Position.pos_width + Node->Element.getWidth(),
+			Node->Position.pos_length + Node->Element.getLength());
 
-		for (int len = Node->Element.getPosition().pos_length;
+		for (int len = Node->Position.pos_length;
 			len <= (int)ElementEnd.pos_length; len++)
 		{
-			for (int width = Node->Element.getPosition().pos_width;
+			for (int width = Node->Position.pos_width;
 				width <= (int)ElementEnd.pos_width; width++)
 			{
-				if (len == Node->Element.getPosition().pos_length
+				if (len == Node->Position.pos_length
 					|| len == ElementEnd.pos_length)
 				{
-					if (width == Node->Element.getPosition().pos_width ||
+					if (width == Node->Position.pos_width ||
 						width == ElementEnd.pos_width)
 					{
 						solutionMatrix[len][width] = '+';
@@ -40,13 +40,13 @@ void ConsoleVisualiser_T::DrawSolution()
 				}
 				else
 				{
-					if (width == Node->Element.getPosition().pos_width ||
+					if (width == Node->Position.pos_width ||
 						width == ElementEnd.pos_width)
 						solutionMatrix[len][width] = '|';
 					else
 					{
-						if (len == std::floor(Node->Element.getLength() / 2 + Node->Element.getPosition().pos_length) &&
-							width == std::floor(Node->Element.getWidth() / 2) + Node->Element.getPosition().pos_width)
+						if (len == std::floor(Node->Element.getLength() / 2 + Node->Position.pos_length) &&
+							width == std::floor(Node->Element.getWidth() / 2) + Node->Position.pos_width)
 							solutionMatrix[len][width] = Node->Element.getId() + 48;
 						else
 							solutionMatrix[len][width] = ' ';
@@ -95,8 +95,8 @@ std::vector<Position_T> FindAvailableSlots(Node_T currentNode)
 	{
 		Position_T availableSlot1;
 		availableSlot1.pos_width = currentNode.Element.getWidth() +
-			currentNode.Element.getPosition().pos_width;
-		availableSlot1.pos_length = currentNode.Element.getPosition().pos_length;
+			currentNode.Position.pos_width;
+		availableSlot1.pos_length = currentNode.Position.pos_length;
 
 		if (availableSlot1 != positionOfChildNode)
 		{
@@ -104,16 +104,16 @@ std::vector<Position_T> FindAvailableSlots(Node_T currentNode)
 		}
 
 		Position_T availableSlot2;
-		availableSlot2.pos_width = currentNode.Element.getPosition().pos_width;
+		availableSlot2.pos_width = currentNode.Position.pos_width;
 		availableSlot2.pos_length = currentNode.Element.getLength() +
-			currentNode.Element.getPosition().pos_length;
+			currentNode.Position.pos_length;
 
 		if (availableSlot2 != positionOfChildNode)
 		{
 			availableSlots.push_back(availableSlot2);
 		}
 
-		positionOfChildNode = currentNode.Element.getPosition();
+		positionOfChildNode = currentNode.Position;
 
 		if (currentNode.ParentNode != NULL)
 			currentNode = *currentNode.ParentNode;

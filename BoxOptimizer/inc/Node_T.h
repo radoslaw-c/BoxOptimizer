@@ -16,10 +16,11 @@ public:
 	{
 		this->Element = Element;
 		this->ParentNode = ParentNode;
-		TreeHierarchy += ParentNode->TreeHierarchy;
+		TreeLevel += ParentNode->TreeLevel;
 	}
 	Element_T Element;
 	Node_T* ParentNode = nullptr;
 	std::vector<Node_T> ChildNodes;
-	int TreeHierarchy = 1;
+	int TreeLevel = 1;
+	Position_T Position;
 };
