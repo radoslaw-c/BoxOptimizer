@@ -1,7 +1,6 @@
 #include "Node_T.h"
 
 static bool positionValid(const Node_T* currentNode,const SlotList& parentSlots, const Position_T& position);
-static bool checkNodeExists(const Node_T* currentNode, NodeMap_T NodeMap);
 static bool compareNodes(const Node_T* node1, const Node_T* node2);
 
 Node_T::Node_T(Element_T Element, Node_T* ParentNode, Position_T Position)
@@ -11,6 +10,7 @@ Node_T::Node_T(Element_T Element, Node_T* ParentNode, Position_T Position)
 	TreeLevel = ParentNode == NULL ? 1 : ParentNode->TreeLevel + 1;
 	this->Position = Position;
 
+	UpdateElementMap();
 	FindAvailableSlots();
 }
 
@@ -62,25 +62,36 @@ bool Node_T::isValid(NodeMap_T NodeMap) const
 	//THE validity check function
 
 	//1. Identical branch is already a part of solution
-	bool nodeExists = checkNodeExists(this, NodeMap);
+	bool nodeExists = checkNodeExists(NodeMap);
 
 	return !nodeExists && true;
 }
 
-static bool checkNodeExists(const Node_T* currentNode, NodeMap_T NodeMap)
+bool Node_T::checkNodeExists(NodeMap_T NodeMap) const
 {
-	for (auto node : NodeMap[currentNode->TreeLevel - 1])
+	std::vector<const Node_T*> ExistingNodes = NodeMap[TreeLevel - 1];
+
+	for (auto ExistingNode : ExistingNodes)
 	{
-		if (compareNodes(node, currentNode))
+		if (compareNodes(ExistingNode, this))
 			return true;
 	}
+
 	return false;
 }
 
 static bool compareNodes(const Node_T* node1, const Node_T* node2)
 {
-	
+	if (node1->elementMap != node2->elementMap)
+		return false;
 
 
-	return false;
+	return true;
+}
+
+void Node_T::UpdateElementMap()
+{
+	if (ParentNode != NULL)
+		elementMap = ParentNode->elementMap;
+	elementMap[Element.getId()] = Position;
 }

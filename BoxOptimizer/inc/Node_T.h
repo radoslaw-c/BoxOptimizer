@@ -2,9 +2,9 @@
 #include "Element.h"
 #include <vector>
 #include <algorithm>
+#include <map>
 
 #define NODE_MAP_T std::vector<std::vector<const Node_T*>>
-
 typedef std::vector<Position_T> SlotList;
 
 class Node_T
@@ -26,9 +26,13 @@ public:
 	SlotList availableSlots;
 	int TreeLevel = 1;
 	Position_T Position;
+	std::map<int, Position_T> elementMap;
 
 private:
 	void FindAvailableSlots();
+	void UpdateElementMap();
+	bool checkNodeExists(NODE_MAP_T NodeMap) const;
+	
 };
 
 typedef NODE_MAP_T NodeMap_T;

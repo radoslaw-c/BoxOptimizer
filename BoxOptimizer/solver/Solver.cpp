@@ -17,7 +17,6 @@ void Solver_T::InitializeElementsManually()
 	numberOfElements = 6;
 
 	NodeMap.resize(numberOfElements);
-
 	//CalculateTotalElementArea();
 }
 

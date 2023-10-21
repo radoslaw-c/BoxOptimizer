@@ -28,8 +28,8 @@ private:
 	float totalElementArea = 0;
 
 	Calibrations_T calib;
+	std::vector<std::vector<const Node_T*>> NodeMap;
 
 	Node_T RootNode;
-	NodeMap_T NodeMap;
 };
 
