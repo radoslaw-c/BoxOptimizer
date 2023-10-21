@@ -20,3 +20,4 @@ private:
 	float outlineArea = std::numeric_limits<float>::max();
 };
 
+typedef std::vector<Solution_T> SolutionList_T;

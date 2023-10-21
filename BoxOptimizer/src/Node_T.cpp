@@ -1,6 +1,8 @@
 #include "Node_T.h"
 
 static bool positionValid(const Node_T* currentNode,const SlotList& parentSlots, const Position_T& position);
+static bool checkNodeExists(const Node_T* currentNode, NodeMap_T NodeMap);
+static bool compareNodes(const Node_T* node1, const Node_T* node2);
 
 Node_T::Node_T(Element_T Element, Node_T* ParentNode, Position_T Position)
 {
@@ -22,7 +24,6 @@ void Node_T::FindAvailableSlots()
 		availableSlots.erase(std::remove(availableSlots.begin(), availableSlots.end(), Position),
 			availableSlots.end());
 	}
-
 
 	Position_T availableSlot1;
 	availableSlot1.pos_width = Element.getWidth() + Position.pos_width;
@@ -56,12 +57,30 @@ static bool positionValid(const Node_T* currentNode,const SlotList& parentSlots,
 	return true;
 }
 
-bool Node_T::isValid() const
+bool Node_T::isValid(NodeMap_T NodeMap) const
 {
 	//THE validity check function
 
 	//1. Identical branch is already a part of solution
+	bool nodeExists = checkNodeExists(this, NodeMap);
+
+	return !nodeExists && true;
+}
+
+static bool checkNodeExists(const Node_T* currentNode, NodeMap_T NodeMap)
+{
+	for (auto node : NodeMap[currentNode->TreeLevel - 1])
+	{
+		if (compareNodes(node, currentNode))
+			return true;
+	}
+	return false;
+}
+
+static bool compareNodes(const Node_T* node1, const Node_T* node2)
+{
+	
 
 
-	return true;
+	return false;
 }

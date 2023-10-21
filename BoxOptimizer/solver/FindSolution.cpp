@@ -14,6 +14,8 @@ void Solver_T::InitializeSolutionTree()
 	Position_T RootPos = Position_T(0, 0);
 	RootNode = Node_T(ElementList.front(), NULL, RootPos);
 	ElementList.erase(ElementList.begin());
+
+	AppendToNodeMap(&RootNode);
 }
 
 void Solver_T::PopulateSolutionTree(Node_T& currentNode)
@@ -37,9 +39,10 @@ void Solver_T::PopulateSolutionTree(Node_T& currentNode)
 
 			Node_T nodeToInsert = Node_T(element, &currentNode, slot);
 
-			if (nodeToInsert.isValid())
+			if (nodeToInsert.isValid(NodeMap))
 			{
 				currentNode.ChildNodes.push_back(nodeToInsert);
+				AppendToNodeMap(&currentNode.ChildNodes.back());
 
 				if (nodeToInsert.TreeLevel < numberOfElements)
 					PopulateSolutionTree(currentNode.ChildNodes.back());
@@ -66,3 +69,7 @@ static bool isPartOfSolution(const Element_T& Element, const Node_T* currentNode
 	return false;
 }
  
+void Solver_T::AppendToNodeMap(const Node_T* node)
+{
+	NodeMap[node->TreeLevel - 1].push_back(node);
+}

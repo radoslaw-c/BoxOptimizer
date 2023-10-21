@@ -5,7 +5,6 @@
 #include <vector>
 #include <iostream>
 
-typedef std::vector<Solution_T> SolutionList_T;
 
 class Solver_T
 {
@@ -18,8 +17,9 @@ public:
 private:
 	void FindSolutions();
 	void InitializeSolutionTree();
-	
 	void PopulateSolutionTree(Node_T& currentNode);
+
+	void AppendToNodeMap(const Node_T* node);
 
 	std::vector<Element_T> ElementList;
 	SolutionList_T SolutionList;
@@ -30,5 +30,6 @@ private:
 	Calibrations_T calib;
 
 	Node_T RootNode;
+	NodeMap_T NodeMap;
 };
 

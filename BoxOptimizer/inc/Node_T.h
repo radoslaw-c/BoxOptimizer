@@ -3,6 +3,8 @@
 #include <vector>
 #include <algorithm>
 
+#define NODE_MAP_T std::vector<std::vector<const Node_T*>>
+
 typedef std::vector<Position_T> SlotList;
 
 class Node_T
@@ -16,7 +18,7 @@ public:
 	}
 
 	Node_T(Element_T Element, Node_T* ParentNode, Position_T Position);
-	bool isValid() const;
+	bool isValid(NODE_MAP_T NodeMap) const;
 
 	Element_T Element;
 	Node_T* ParentNode = nullptr;
@@ -28,3 +30,5 @@ public:
 private:
 	void FindAvailableSlots();
 };
+
+typedef NODE_MAP_T NodeMap_T;
