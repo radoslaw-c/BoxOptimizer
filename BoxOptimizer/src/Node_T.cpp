@@ -4,6 +4,8 @@
 static bool positionValid(const Node_T* currentNode,const SlotList& parentSlots, const Position_T& position);
 static bool compareNodes(const Node_T* node1, const Node_T* node2);
 
+static bool CompareSlots(const Position_T& pos1, const Position_T& pos2);
+
 Node_T::Node_T(Element_T Element, Node_T* ParentNode, Position_T Position)
 {
 	this->Element = Element;
@@ -38,6 +40,16 @@ void Node_T::FindAvailableSlots()
 	availableSlot2.pos_length = Element.getLength() + Position.pos_length;
 	if (positionValid(this, PartentSlots, availableSlot2) && availableSlot2 != Position)
 		availableSlots.push_back(availableSlot2);
+
+	std::sort(availableSlots.begin(), availableSlots.end(), CompareSlots);
+}
+
+static bool CompareSlots(const Position_T& pos1, const Position_T& pos2)
+{
+	if (pos1.pos_width == pos2.pos_width)
+		return pos1.pos_length < pos2.pos_length;
+
+	return pos1.pos_width < pos2.pos_width;
 }
 
 static bool positionValid(const Node_T* currentNode,const SlotList& parentSlots, const Position_T& position)
@@ -78,7 +90,7 @@ bool Node_T::isValid(NodeMap_T NodeMap, float totalElementArea) const
 
 bool Node_T::checkNodeExists(NodeMap_T NodeMap) const
 {
-	std::vector<const Node_T*> ExistingNodes = NodeMap[TreeLevel - 1];
+	std::vector<Node_T*> ExistingNodes = NodeMap[TreeLevel - 1];
 
 	for (auto ExistingNode : ExistingNodes)
 	{
@@ -94,12 +106,9 @@ static bool compareNodes(const Node_T* node1, const Node_T* node2)
 	if (node1->OutlineArea != node2->OutlineArea)
 		return false;
 
+	if (node1->availableSlots == node2->availableSlots)
+		return true;
 
-	
-	//if (node1->elementMap != node2->elementMap)
-	//	return false;
-	
-	//return true;
 	return false;
 }
 

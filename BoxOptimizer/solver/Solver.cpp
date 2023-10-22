@@ -8,15 +8,15 @@ Solver_T::Solver_T()
 
 void Solver_T::InitializeElementsManually()
 {
-	ElementList.push_back(Element_T(10,3, 1));
-	ElementList.push_back(Element_T(5, 2, 2));
+	ElementList.push_back(Element_T(10, 5, 1));
+	ElementList.push_back(Element_T(5, 5, 2));
 	ElementList.push_back(Element_T(5, 5, 3));
 	ElementList.push_back(Element_T(5, 5, 4));
 	ElementList.push_back(Element_T(5, 5, 5));
-	ElementList.push_back(Element_T(5, 5, 6));
-	ElementList.push_back(Element_T(5, 5, 7));
+	//ElementList.push_back(Element_T(5, 5, 6));
+	//ElementList.push_back(Element_T(5, 5, 7));
 	//ElementList.push_back(Element_T(5, 5, 8));
-	//ElementList.push_back(Element_T(5, 2, 9));
+	//ElementList.push_back(Element_T(5, 5, 9));
 	//ElementList.push_back(Element_T(5, 5, 10));
 	//ElementList.push_back(Element_T(5, 5, 11));
 	//ElementList.push_back(Element_T(5, 5, 12));
@@ -26,7 +26,7 @@ void Solver_T::InitializeElementsManually()
 	//ElementList.push_back(Element_T(5, 5, 16));
 	//ElementList.push_back(Element_T(5, 5, 17));
 	//ElementList.push_back(Element_T(5, 5, 18));
-	numberOfElements = 7;
+	numberOfElements = 5;
 
 	NodeMap.resize(numberOfElements);
 	CalculateTotalElementArea();
@@ -65,4 +65,3 @@ void Solver_T::CalculateTotalElementArea()
 		totalElementArea += Element.getLength() * Element.getWidth();
 	}
 }
-

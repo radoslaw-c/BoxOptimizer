@@ -17,19 +17,19 @@ public:
 private:
 	void FindSolutions();
 	void InitializeSolutionTree();
-	void PopulateSolutionTree(Node_T& currentNode);
+	void PopulateSolutionTree();
 	void CalculateTotalElementArea();
-	void AppendToNodeMap(const Node_T* node);
+	void AppendToNodeMap(int treeLevel, Node_T* node);
+	void AllocateNextTreeLayerMem(int currentLayer, const std::vector<Node_T*>& TreeLayer);
 
 	std::vector<Element_T> ElementList;
 	SolutionList_T SolutionList;
 	int numberOfElements = 0;
 	int solutionID = 0;
 	float totalElementArea = 0;
-	bool jackpotHit = false;
 
 	Calibrations_T calib;
-	std::vector<std::vector<const Node_T*>> NodeMap;
+	std::vector<std::vector<Node_T*>> NodeMap;
 
 	Node_T RootNode;
 };

@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <map>
 
-#define NODE_MAP_T std::vector<std::vector<const Node_T*>>
+#define NODE_MAP_T std::vector<std::vector<Node_T*>>
 typedef std::vector<Position_T> SlotList;
 
 class Node_T

@@ -6,63 +6,80 @@ void Solver_T::FindSolutions()
 {
 	InitializeSolutionTree();
 
-	PopulateSolutionTree(RootNode);
+	PopulateSolutionTree();
 }
 
 void Solver_T::InitializeSolutionTree()
 {
 	Position_T RootPos = Position_T(0, 0);
 	RootNode = Node_T(ElementList.front(), NULL, RootPos);
-	ElementList.erase(ElementList.begin());
+	//ElementList.erase(ElementList.begin());
 
-	AppendToNodeMap(&RootNode);
+	//NodeMap[0].reserve(1);
+	NodeMap[0].push_back(&RootNode);
 }
 
-void Solver_T::PopulateSolutionTree(Node_T& currentNode)
+void Solver_T::PopulateSolutionTree()
 {
-	//preallocate memory for children
-	int numberOfPossibleChildren = currentNode.availableSlots.size() * numberOfElements;
-	if (currentNode.ChildNodes.capacity() < numberOfPossibleChildren)
+	for (auto it = 0; it < NodeMap.size(); it++)
 	{
-		//this is more than necessery
-		//possible way to optimize memory usage
-		currentNode.ChildNodes.reserve(numberOfPossibleChildren);
-	}
+		auto TreeLayer = NodeMap[it];
+		AllocateNextTreeLayerMem(it, TreeLayer);
 
-	//loop through available slots
-	for (auto slot : currentNode.availableSlots)
-	{
-		for (auto element : ElementList)
+		for (auto currentNode : TreeLayer)
 		{
-			if (isPartOfSolution(element, &currentNode))
-				continue;
-
-			Node_T nodeToInsert = Node_T(element, &currentNode, slot);
-
-			if (nodeToInsert.isValid(NodeMap, totalElementArea))
+			int numberOfPossibleChildren = currentNode->availableSlots.size() * (numberOfElements - it - 1);
+			if (currentNode->ChildNodes.capacity() < numberOfPossibleChildren)
 			{
-				currentNode.ChildNodes.push_back(nodeToInsert);
-				AppendToNodeMap(&currentNode.ChildNodes.back());
+				//this is more than necessery
+				//possible way to optimize memory usage
+				currentNode->ChildNodes.reserve(numberOfPossibleChildren);
+			}
 
-				if (nodeToInsert.TreeLevel < numberOfElements)
-					PopulateSolutionTree(currentNode.ChildNodes.back());
+			for (auto slot : currentNode->availableSlots)
+			{
+				for (auto element : ElementList)
+				{
+					if (isPartOfSolution(element, currentNode))
+						continue;
 
-				if (!jackpotHit && nodeToInsert.TreeLevel == numberOfElements)
-				{
-					Node_T* lastNode = &currentNode.ChildNodes.back();
-					Solution_T solutionToInsert = Solution_T(lastNode, solutionID++);
-					SolutionList.push_back(solutionToInsert);
-				}
-				if (nodeToInsert.CheckJackpot(numberOfElements, totalElementArea) || jackpotHit)
-				{
-					jackpotHit = true;
-					break;
+					Node_T nodeToInsert = Node_T(element, currentNode, slot);
+
+					if (nodeToInsert.isValid(NodeMap, totalElementArea))
+					{
+						currentNode->ChildNodes.push_back(nodeToInsert);
+						AppendToNodeMap(it + 1, &currentNode->ChildNodes.back());
+
+						if (nodeToInsert.TreeLevel == numberOfElements)
+						{
+							Node_T* lastNode = &currentNode->ChildNodes.back();
+							Solution_T solutionToInsert = Solution_T(lastNode, solutionID++);
+							SolutionList.push_back(solutionToInsert);
+						}
+					}
 				}
 			}
 		}
-		if (jackpotHit)
-			break;
 	}
+}
+
+void Solver_T::AppendToNodeMap(int treeLevel, Node_T* node)
+{
+	NodeMap[treeLevel].push_back(node);
+}
+
+void Solver_T::AllocateNextTreeLayerMem(int currentLayer, const std::vector<Node_T*>& TreeLayer)
+{
+	int totalChildren = 0;
+	for (auto node : TreeLayer)
+		totalChildren += node->availableSlots.size() * (ElementList.size() - currentLayer - 1);
+
+	if (currentLayer + 1 < NodeMap.size())
+		NodeMap[currentLayer + 1].reserve(totalChildren);
+
+	//allocate memory for solution list
+	if (currentLayer + 1 == NodeMap.size() - 1)
+		SolutionList.reserve(totalChildren);
 }
 
 static bool isPartOfSolution(const Element_T& Element, const Node_T* currentNode)
@@ -74,9 +91,4 @@ static bool isPartOfSolution(const Element_T& Element, const Node_T* currentNode
 		currentNode = currentNode->ParentNode;
 	}
 	return false;
-}
- 
-void Solver_T::AppendToNodeMap(const Node_T* node)
-{
-	NodeMap[node->TreeLevel - 1].push_back(node);
 }
