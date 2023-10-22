@@ -8,16 +8,28 @@ Solver_T::Solver_T()
 
 void Solver_T::InitializeElementsManually()
 {
-	ElementList.push_back(Element_T(5, 5, 1));
-	ElementList.push_back(Element_T(5, 5, 2));
+	ElementList.push_back(Element_T(10,3, 1));
+	ElementList.push_back(Element_T(5, 2, 2));
 	ElementList.push_back(Element_T(5, 5, 3));
 	ElementList.push_back(Element_T(5, 5, 4));
 	ElementList.push_back(Element_T(5, 5, 5));
 	ElementList.push_back(Element_T(5, 5, 6));
-	numberOfElements = 6;
+	ElementList.push_back(Element_T(5, 5, 7));
+	//ElementList.push_back(Element_T(5, 5, 8));
+	//ElementList.push_back(Element_T(5, 2, 9));
+	//ElementList.push_back(Element_T(5, 5, 10));
+	//ElementList.push_back(Element_T(5, 5, 11));
+	//ElementList.push_back(Element_T(5, 5, 12));
+	//ElementList.push_back(Element_T(5, 5, 13));
+	//ElementList.push_back(Element_T(5, 5, 14));
+	//ElementList.push_back(Element_T(5, 5, 15));
+	//ElementList.push_back(Element_T(5, 5, 16));
+	//ElementList.push_back(Element_T(5, 5, 17));
+	//ElementList.push_back(Element_T(5, 5, 18));
+	numberOfElements = 7;
 
 	NodeMap.resize(numberOfElements);
-	//CalculateTotalElementArea();
+	CalculateTotalElementArea();
 }
 
 void Solver_T::Solve()
@@ -43,5 +55,14 @@ void Solver_T::Solve()
 	//	consolePrint.DrawSolution();
 	//	consolePrint.PrintSolutionDetails();
 	//}
+}
+
+void Solver_T::CalculateTotalElementArea()
+{
+	//TODO provide a way to handle non-rectangles
+	for (auto Element : ElementList)
+	{
+		totalElementArea += Element.getLength() * Element.getWidth();
+	}
 }
 

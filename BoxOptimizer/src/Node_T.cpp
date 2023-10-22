@@ -1,4 +1,5 @@
 #include "Node_T.h"
+#include "CalculateOutlineArea.h"
 
 static bool positionValid(const Node_T* currentNode,const SlotList& parentSlots, const Position_T& position);
 static bool compareNodes(const Node_T* node1, const Node_T* node2);
@@ -12,6 +13,7 @@ Node_T::Node_T(Element_T Element, Node_T* ParentNode, Position_T Position)
 
 	UpdateElementMap();
 	FindAvailableSlots();
+	OutlineArea = CalculateOutlineArea(this);
 }
 
 void Node_T::FindAvailableSlots()
@@ -57,14 +59,21 @@ static bool positionValid(const Node_T* currentNode,const SlotList& parentSlots,
 	return true;
 }
 
-bool Node_T::isValid(NodeMap_T NodeMap) const
+bool Node_T::isValid(NodeMap_T NodeMap, float totalElementArea) const
 {
 	//THE validity check function
 
-	//1. Identical branch is already a part of solution
-	bool nodeExists = checkNodeExists(NodeMap);
+	// 1. Check if outline area ins't too big
+	if (!checkAreaValid(totalElementArea))
+		return false;
 
-	return !nodeExists && true;
+	// 2. Identical branch is already a part of solution
+	// disabled because performance penalty - rougly 1000 times
+	
+	if (checkNodeExists(NodeMap))
+		return false;
+
+	return true;
 }
 
 bool Node_T::checkNodeExists(NodeMap_T NodeMap) const
@@ -82,11 +91,21 @@ bool Node_T::checkNodeExists(NodeMap_T NodeMap) const
 
 static bool compareNodes(const Node_T* node1, const Node_T* node2)
 {
-	if (node1->elementMap != node2->elementMap)
+	if (node1->OutlineArea != node2->OutlineArea)
 		return false;
 
 
-	return true;
+	
+	//if (node1->elementMap != node2->elementMap)
+	//	return false;
+	
+	//return true;
+	return false;
+}
+
+inline bool Node_T::checkAreaValid(float totalElementArea) const
+{
+	return CalculateOutlineArea(this) <= totalElementArea * 1.25;
 }
 
 void Node_T::UpdateElementMap()
@@ -94,4 +113,12 @@ void Node_T::UpdateElementMap()
 	if (ParentNode != NULL)
 		elementMap = ParentNode->elementMap;
 	elementMap[Element.getId()] = Position;
+}
+
+bool Node_T::CheckJackpot(const int numberOfElements, const float totalElementArea) const
+{
+	if (numberOfElements == TreeLevel && OutlineArea == totalElementArea)
+		return true;
+	else
+		return false;
 }

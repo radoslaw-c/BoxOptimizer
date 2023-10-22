@@ -6,7 +6,7 @@ class Element_T
 {
 public:
 	Element_T();
-	Element_T(float length, float width, int id);
+	Element_T(float width, float length, int id);
 
 	//getters
 	float getLength() { return _length; }

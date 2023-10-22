@@ -39,7 +39,7 @@ void Solver_T::PopulateSolutionTree(Node_T& currentNode)
 
 			Node_T nodeToInsert = Node_T(element, &currentNode, slot);
 
-			if (nodeToInsert.isValid(NodeMap))
+			if (nodeToInsert.isValid(NodeMap, totalElementArea))
 			{
 				currentNode.ChildNodes.push_back(nodeToInsert);
 				AppendToNodeMap(&currentNode.ChildNodes.back());
@@ -47,14 +47,21 @@ void Solver_T::PopulateSolutionTree(Node_T& currentNode)
 				if (nodeToInsert.TreeLevel < numberOfElements)
 					PopulateSolutionTree(currentNode.ChildNodes.back());
 
-				if (nodeToInsert.TreeLevel == numberOfElements)
+				if (!jackpotHit && nodeToInsert.TreeLevel == numberOfElements)
 				{
 					Node_T* lastNode = &currentNode.ChildNodes.back();
 					Solution_T solutionToInsert = Solution_T(lastNode, solutionID++);
 					SolutionList.push_back(solutionToInsert);
 				}
+				if (nodeToInsert.CheckJackpot(numberOfElements, totalElementArea) || jackpotHit)
+				{
+					jackpotHit = true;
+					break;
+				}
 			}
 		}
+		if (jackpotHit)
+			break;
 	}
 }
 

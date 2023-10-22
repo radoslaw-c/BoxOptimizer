@@ -1,5 +1,6 @@
 #pragma once
 #include "Element.h"
+#include "Calibrations_T.h"
 #include <vector>
 #include <algorithm>
 #include <map>
@@ -18,21 +19,25 @@ public:
 	}
 
 	Node_T(Element_T Element, Node_T* ParentNode, Position_T Position);
-	bool isValid(NODE_MAP_T NodeMap) const;
+	bool isValid(NODE_MAP_T NodeMap, float totalElementArea) const;
+
+	bool CheckJackpot(const int numberOfElements, const float totalElementArea) const;
 
 	Element_T Element;
+	float OutlineArea = 0;
 	Node_T* ParentNode = nullptr;
 	std::vector<Node_T> ChildNodes;
 	SlotList availableSlots;
 	int TreeLevel = 1;
 	Position_T Position;
 	std::map<int, Position_T> elementMap;
+	bool isJackpot = false;
 
 private:
 	void FindAvailableSlots();
 	void UpdateElementMap();
 	bool checkNodeExists(NODE_MAP_T NodeMap) const;
-	
+	inline bool checkAreaValid(float totalElementArea) const;
 };
 
 typedef NODE_MAP_T NodeMap_T;
