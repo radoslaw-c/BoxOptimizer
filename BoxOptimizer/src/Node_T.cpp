@@ -28,16 +28,23 @@ void Node_T::FindAvailableSlots()
 		availableSlots.erase(std::remove(availableSlots.begin(), availableSlots.end(), Position),
 			availableSlots.end());
 	}
+	else
+	{
+		Position_T newLayerPos = Position_T(0, 0, 1);
+		availableSlots.push_back(newLayerPos);
+	}
 
 	Position_T availableSlot1;
 	availableSlot1.pos_width = Element.getWidth() + Position.pos_width;
 	availableSlot1.pos_length = Position.pos_length;
+	availableSlot1.layer = Position.layer;
 	if (positionValid(this, PartentSlots, availableSlot1) && availableSlot1 != Position)
 		availableSlots.push_back(availableSlot1);
 
 	Position_T availableSlot2;
 	availableSlot2.pos_width = Position.pos_width;
 	availableSlot2.pos_length = Element.getLength() + Position.pos_length;
+	availableSlot2.layer = Position.layer;
 	if (positionValid(this, PartentSlots, availableSlot2) && availableSlot2 != Position)
 		availableSlots.push_back(availableSlot2);
 

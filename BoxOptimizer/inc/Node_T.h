@@ -25,7 +25,7 @@ public:
 
 	Element_T Element;
 	float OutlineArea = 0;
-	Node_T* ParentNode = nullptr;
+	Node_T* ParentNode = NULL;
 	std::vector<Node_T> ChildNodes;
 	SlotList availableSlots;
 	int TreeLevel = 1;
