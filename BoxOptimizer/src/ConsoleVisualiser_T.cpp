@@ -1,6 +1,6 @@
 #include "ConsoleVisualiser_T.h"
 
-static void print_solution(char solution[][50], const Solution_T& Solution);
+static void print_solution(char solution[][50][50], const Solution_T& Solution);
 std::vector<Position_T> FindAvailableSlots(Node_T currentNode);
 
 ConsoleVisualiser_T::ConsoleVisualiser_T(Solution_T Solution)
@@ -10,7 +10,7 @@ ConsoleVisualiser_T::ConsoleVisualiser_T(Solution_T Solution)
 
 void ConsoleVisualiser_T::DrawSolution()
 {
-	char solutionMatrix[50][50];
+	char solutionMatrix[2][50][50];
 
 	Node_T* Node = Solution.SolutionNode;
 	while (Node != NULL)
@@ -31,25 +31,25 @@ void ConsoleVisualiser_T::DrawSolution()
 					if (width == Node->Position.pos_width ||
 						width == ElementEnd.pos_width)
 					{
-						solutionMatrix[len][width] = '+';
+						solutionMatrix[Node->Position.layer][len][width] = '+';
 					}
 					else
 					{
-						solutionMatrix[len][width] = '-';
+						solutionMatrix[Node->Position.layer][len][width] = '-';
 					}
 				}
 				else
 				{
 					if (width == Node->Position.pos_width ||
 						width == ElementEnd.pos_width)
-						solutionMatrix[len][width] = '|';
+						solutionMatrix[Node->Position.layer][len][width] = '|';
 					else
 					{
 						if (len == std::floor(Node->Element.getLength() / 2 + Node->Position.pos_length) &&
 							width == std::floor(Node->Element.getWidth() / 2) + Node->Position.pos_width)
-							solutionMatrix[len][width] = Node->Element.getId() + 48;
+							solutionMatrix[Node->Position.layer][len][width] = Node->Element.getId() + 48;
 						else
-							solutionMatrix[len][width] = ' ';
+							solutionMatrix[Node->Position.layer][len][width] = ' ';
 					}
 				}
 			}
@@ -59,30 +59,35 @@ void ConsoleVisualiser_T::DrawSolution()
 	print_solution(solutionMatrix, Solution);
  }
 
-static void print_solution(char solutionMatrix[][50], const Solution_T& Solution)
+static void print_solution(char solutionMatrix[][50][50], const Solution_T& Solution)
 {
 	auto outline = FindAvailableSlots(*Solution.SolutionNode);
 
 	float max_width = 0, max_len = 0;
 
-	for (auto point : outline)
+	for (int i = 0; i < 2; i++)
 	{
-		if (point.pos_width > max_width)
-			max_width = point.pos_width;
-		if (point.pos_length > max_len)
-			max_len = point.pos_length;
-	}
-
-	for (int i = 0; i <= max_len; i++)
-	{
-		for (int j = 0; j <= max_width; j++)
+		std::cout << "Layer ID: " << i << std::endl;
+		auto layer = solutionMatrix[i];
+		for (auto point : outline)
 		{
-			if (solutionMatrix[i][j] != -52)
-				std::cout << solutionMatrix[i][j];
-			else
-				std::cout << ' ';
+			if (point.pos_width > max_width)
+				max_width = point.pos_width;
+			if (point.pos_length > max_len)
+				max_len = point.pos_length;
 		}
-		std::cout << std::endl;
+
+		for (int i = 0; i <= max_len; i++)
+		{
+			for (int j = 0; j <= max_width; j++)
+			{
+				if (layer[i][j] != -52)
+					std::cout << layer[i][j];
+				else
+					std::cout << ' ';
+			}
+			std::cout << std::endl;
+		}
 	}
 }
 
