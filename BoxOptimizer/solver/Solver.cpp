@@ -9,10 +9,10 @@ Solver_T::Solver_T()
 void Solver_T::InitializeElementsManually()
 {
 	ElementList.push_back(Element_T(10, 5, 1));
-	ElementList.push_back(Element_T(5, 5, 2));
-	ElementList.push_back(Element_T(5, 5, 3));
-	ElementList.push_back(Element_T(5, 5, 4));
-	ElementList.push_back(Element_T(5, 5, 5));
+	ElementList.push_back(Element_T(7, 5, 2));
+	ElementList.push_back(Element_T(3, 5, 3));
+	//ElementList.push_back(Element_T(5, 5, 4));
+	//ElementList.push_back(Element_T(5, 5, 5));
 	//ElementList.push_back(Element_T(5, 5, 6));
 	//ElementList.push_back(Element_T(5, 5, 7));
 	//ElementList.push_back(Element_T(5, 5, 8));
@@ -26,7 +26,7 @@ void Solver_T::InitializeElementsManually()
 	//ElementList.push_back(Element_T(5, 5, 16));
 	//ElementList.push_back(Element_T(5, 5, 17));
 	//ElementList.push_back(Element_T(5, 5, 18));
-	numberOfElements = 5;
+	numberOfElements = 3;
 
 	NodeMap.resize(numberOfElements);
 	CalculateTotalElementArea();
@@ -48,13 +48,6 @@ void Solver_T::Solve()
 	ConsoleVisualiser_T consolePrint(*bestSolution);
 	consolePrint.DrawSolution();
 	consolePrint.PrintSolutionDetails();
-
-	//for (int i = 0; i < SolutionList.size(); i++)
-	//{
-	//	ConsoleVisualiser_T consolePrint(SolutionList[i]);
-	//	consolePrint.DrawSolution();
-	//	consolePrint.PrintSolutionDetails();
-	//}
 }
 
 void Solver_T::CalculateTotalElementArea()
