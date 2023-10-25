@@ -2,7 +2,7 @@
 
 float CalculateOutlineArea(const Node_T* Node)
 {
-	float maxWidth = 0, maxLength = 0;
+	float maxWidth = 0, maxLength = 0, maxHeight;
 
 	while (Node != NULL)
 	{
