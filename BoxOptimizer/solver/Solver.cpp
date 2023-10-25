@@ -8,9 +8,9 @@ Solver_T::Solver_T()
 
 void Solver_T::InitializeElementsManually()
 {
-	ElementList.push_back(Element_T(10, 5, 1));
-	ElementList.push_back(Element_T(7, 5, 2));
-	ElementList.push_back(Element_T(3, 5, 3));
+	ElementList.push_back(Element_T(10, 5, 1, 1));
+	ElementList.push_back(Element_T(5, 5, 1, 2));
+	ElementList.push_back(Element_T(5, 5, 1, 3));
 	//ElementList.push_back(Element_T(5, 5, 4));
 	//ElementList.push_back(Element_T(5, 5, 5));
 	//ElementList.push_back(Element_T(5, 5, 6));
@@ -55,6 +55,11 @@ void Solver_T::CalculateTotalElementArea()
 	//TODO provide a way to handle non-rectangles
 	for (auto Element : ElementList)
 	{
-		totalElementArea += Element.getLength() * Element.getWidth();
+		float singleElementArea = 0;
+		singleElementArea += 2 * Element.getLength() * Element.getWidth() +
+			2 * Element.getLength() * Element.getHeight() +
+			2 * Element.getWidth() * Element.getHeight();
+
+		totalElementArea += singleElementArea;
 	}
 }

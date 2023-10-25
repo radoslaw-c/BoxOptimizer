@@ -16,14 +16,22 @@ public:
 		pos_length = length;
 	}
 
-	Position_T(float width, float length, short layer)
+	Position_T(float width, float length, float height)
 	{
 		pos_width = width;
 		pos_length = length;
+		pos_height = height;
+	}
+
+	Position_T(float width, float length, float height, short layer)
+	{
+		pos_width = width;
+		pos_length = length;
+		pos_height = height;
 		this->layer = layer;
 	}
 
-	float pos_width, pos_length;
+	float pos_width = 0, pos_length = 0, pos_height = 0;;
 	short layer = 0;
 };
 

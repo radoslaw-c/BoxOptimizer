@@ -5,20 +5,21 @@
 class Element_T
 {
 public:
-	Element_T();
-	Element_T(float width, float length, int id);
+	Element_T() {}
+	Element_T(float width, float length, float height, int id);
 
 	//getters
-	float getLength() { return _length; }
-	float getWidth() { return _width; }
-	int getId() const { return _id; }
+	float getLength() { return length; }
+	float getWidth() { return width; }
+	float getHeight() { return height; }
+	int getId() const { return id; }
 
 	//setters
-	void setLength(float len) { _length = len; }
-	void setWidth(float width) { _width = width; }
+	void setLength(float len) { length = len; }
+	void setWidth(float width) { width = width; }
 
 private:
-	float _width, _length;
-	int _id;
+	float width=0, length=0, height=0;
+	int id=0;
 };
 
