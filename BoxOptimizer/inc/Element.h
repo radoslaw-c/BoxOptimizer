@@ -9,9 +9,9 @@ public:
 	Element_T(float width, float length, float height, int id);
 
 	//getters
-	float getLength() { return length; }
-	float getWidth() { return width; }
-	float getHeight() { return height; }
+	float getLength() const { return length; }
+	float getWidth() const{ return width; }
+	float getHeight() const { return height; }
 	int getId() const { return id; }
 
 	//setters
