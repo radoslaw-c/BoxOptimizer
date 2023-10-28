@@ -4,18 +4,36 @@
 static bool positionValid(const Node_T* currentNode,const SlotList& parentSlots, const Position_T& position);
 static bool compareNodes(const Node_T* node1, const Node_T* node2);
 
-static bool CompareSlots(const Position_T& pos1, const Position_T& pos2);
-
-Node_T::Node_T(Element_T Element, Node_T* ParentNode, Position_T Position)
+Node_T::Node_T(Element_T Element, Node_T* ParentNode, Position_T Position, const Calibrations_T& calib)
 {
 	this->Element = Element;
 	this->ParentNode = ParentNode;
 	TreeLevel = ParentNode == NULL ? 1 : ParentNode->TreeLevel + 1;
 	this->Position = Position;
 
+	GetNodeLayer(calib);
+
 	UpdateElementMap();
 	FindAvailableSlots();
 	OutlineArea = CalculateOutlineArea(this);
+}
+
+void Node_T::GetNodeLayer(const Calibrations_T& calib)
+{
+	if (ParentNode == NULL)
+		layer = 0;
+	else
+	{
+		float minHeight = ParentNode->Position.pos_height - calib.layerTolerance_down;
+		float maxHeight = ParentNode->Position.pos_height + calib.layerTolerance_up;
+
+		if (Position.pos_height < minHeight)
+			layer = ParentNode->layer - 1;
+		else if (Position.pos_height > maxHeight)
+			layer = ParentNode->layer + 1;
+		else //then layers equal
+			layer = ParentNode->layer;
+	}
 }
 
 void Node_T::FindAvailableSlots()
@@ -28,11 +46,6 @@ void Node_T::FindAvailableSlots()
 		availableSlots.erase(std::remove(availableSlots.begin(), availableSlots.end(), Position),
 			availableSlots.end());
 	}
-	else
-	{
-		Position_T newLayerPos = Position_T(0, 0, Position.pos_height);
-		availableSlots.push_back(newLayerPos);
-	}
 
 	Position_T availableSlot1;
 	availableSlot1.pos_width = Element.getWidth() + Position.pos_width;
@@ -44,20 +57,19 @@ void Node_T::FindAvailableSlots()
 	Position_T availableSlot2;
 	availableSlot2.pos_width = Position.pos_width;
 	availableSlot2.pos_length = Element.getLength() + Position.pos_length;
-	availableSlot2.layer = Position.pos_height;
+	availableSlot2.pos_height = Position.pos_height;
 	if (positionValid(this, PartentSlots, availableSlot2) && availableSlot2 != Position)
 		availableSlots.push_back(availableSlot2);
 
-	std::sort(availableSlots.begin(), availableSlots.end(), CompareSlots);
+	if (Position == Position_T(0, 0))
+	{
+		auto availableSlot3 = Position_T(0, 0, Position.pos_height + Element.getHeight());
+		availableSlots.push_back(availableSlot3);
+	}
+
+	std::sort(availableSlots.begin(), availableSlots.end(), ComparePositions);
 }
 
-static bool CompareSlots(const Position_T& pos1, const Position_T& pos2)
-{
-	if (pos1.pos_width == pos2.pos_width)
-		return pos1.pos_length < pos2.pos_length;
-
-	return pos1.pos_width < pos2.pos_width;
-}
 
 static bool positionValid(const Node_T* currentNode,const SlotList& parentSlots, const Position_T& position)
 {

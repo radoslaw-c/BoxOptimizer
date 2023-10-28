@@ -18,7 +18,8 @@ public:
 		this->Element = Element;
 	}
 
-	Node_T(Element_T Element, Node_T* ParentNode, Position_T Position);
+	//Node_T(Element_T Element, Node_T* ParentNode, Position_T Position);
+	Node_T(Element_T Element, Node_T* ParentNode, Position_T Position, const Calibrations_T &calib);
 	bool isValid(NODE_MAP_T NodeMap, float totalElementArea) const;
 
 	bool CheckJackpot(const int numberOfElements, const float totalElementArea) const;
@@ -30,14 +31,16 @@ public:
 	SlotList availableSlots;
 	int TreeLevel = 1;
 	Position_T Position;
+	short layer = -1;
 	std::map<int, Position_T> elementMap;
 	bool isJackpot = false;
 
 private:
-	void FindAvailableSlots();
+	void GetNodeLayer(const Calibrations_T& calib);
 	void UpdateElementMap();
+	void FindAvailableSlots();
 	bool checkNodeExists(NODE_MAP_T NodeMap) const;
-	inline bool checkAreaValid(float totalElementArea) const;
+	inline bool checkAreaValid(float totalElementArea) const;	
 };
 
 typedef NODE_MAP_T NodeMap_T;
