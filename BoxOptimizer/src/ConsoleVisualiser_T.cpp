@@ -10,7 +10,7 @@ ConsoleVisualiser_T::ConsoleVisualiser_T(Solution_T Solution)
 
 void ConsoleVisualiser_T::DrawSolution()
 {
-	char solutionMatrix[2][50][50];
+	char solutionMatrix[4][50][50];
 
 	Node_T* Node = Solution.SolutionNode;
 	while (Node != NULL)
@@ -31,25 +31,25 @@ void ConsoleVisualiser_T::DrawSolution()
 					if (width == Node->Position.pos_width ||
 						width == ElementEnd.pos_width)
 					{
-						solutionMatrix[Node->Position.layer][len][width] = '+';
+						solutionMatrix[(int)Node->Position.pos_height][len][width] = '+';
 					}
 					else
 					{
-						solutionMatrix[Node->Position.layer][len][width] = '-';
+						solutionMatrix[(int)Node->Position.pos_height][len][width] = '-';
 					}
 				}
 				else
 				{
 					if (width == Node->Position.pos_width ||
 						width == ElementEnd.pos_width)
-						solutionMatrix[Node->Position.layer][len][width] = '|';
+						solutionMatrix[(int)Node->Position.pos_height][len][width] = '|';
 					else
 					{
 						if (len == std::floor(Node->Element.getLength() / 2 + Node->Position.pos_length) &&
 							width == std::floor(Node->Element.getWidth() / 2) + Node->Position.pos_width)
-							solutionMatrix[Node->Position.layer][len][width] = Node->Element.getId() + 48;
+							solutionMatrix[(int)Node->Position.pos_height][len][width] = Node->Element.getId() + 48;
 						else
-							solutionMatrix[Node->Position.layer][len][width] = ' ';
+							solutionMatrix[(int)Node->Position.pos_height][len][width] = ' ';
 					}
 				}
 			}
@@ -65,7 +65,7 @@ static void print_solution(char solutionMatrix[][50][50], const Solution_T& Solu
 
 	float max_width = 0, max_len = 0;
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		std::cout << "Layer ID: " << i << std::endl;
 		auto layer = solutionMatrix[i];
