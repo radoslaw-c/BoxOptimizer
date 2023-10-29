@@ -27,6 +27,15 @@ public:
 	short layer = -1;
 };
 
+class Vertex_T : public Position_T
+{
+public:
+	Vertex_T(float width, float length, int ElementID);
+
+	int ElementID = -1;
+};
+
+
 bool operator== (const Position_T& pos1, const Position_T& pos2);
 bool operator!= (const Position_T& pos1, const Position_T& pos2);
 bool operator< (const Position_T& pos1, const Position_T& pos2);

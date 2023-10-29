@@ -1,5 +1,10 @@
 #include "Position.h"
 
+Vertex_T::Vertex_T(float width, float length, int ElementID) : Position_T(width, length)
+{
+	this->ElementID = ElementID;
+}
+
 bool operator== (const Position_T& pos1, const Position_T& pos2)
 {
 	return pos1.pos_length == pos2.pos_length && pos1.pos_width == pos2.pos_width;
