@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 
 class Position_T
 {
@@ -30,4 +31,7 @@ bool operator== (const Position_T& pos1, const Position_T& pos2);
 bool operator!= (const Position_T& pos1, const Position_T& pos2);
 bool operator< (const Position_T& pos1, const Position_T& pos2);
 
-bool ComparePositions(const Position_T& pos1, const Position_T& pos2);
+bool comparePositions(const Position_T& pos1, const Position_T& pos2);
+bool comaprePositions_widthLess(const Position_T& pos1, const Position_T& pos2);
+bool comaprePositions_lengthLess(const Position_T& pos1, const Position_T& pos2);
+float positionDistance(const Position_T& pos1, const Position_T& pos2, bool use3D = false);
