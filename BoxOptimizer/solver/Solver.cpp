@@ -10,8 +10,8 @@ void Solver_T::InitializeElementsManually()
 {
 	ElementList.push_back(Element_T(10, 5, 1, 1));
 	ElementList.push_back(Element_T(5, 5, 1, 2));
-	ElementList.push_back(Element_T(5, 5, 1, 3));
-	//ElementList.push_back(Element_T(5, 5, 4));
+	ElementList.push_back(Element_T(10, 5, 1, 3));
+	//ElementList.push_back(Element_T(5, 5, 1, 4));
 	//ElementList.push_back(Element_T(5, 5, 5));
 	//ElementList.push_back(Element_T(5, 5, 6));
 	//ElementList.push_back(Element_T(5, 5, 7));
@@ -37,17 +37,27 @@ void Solver_T::Solve()
 	FindSolutions();
 	//find solution with lowest area
 
-	Solution_T* bestSolution = &SolutionList.front();
-
-	for (int i = 0; i < SolutionList.size(); i++)
+	for (const auto& solution : SolutionList)
 	{
-		if (SolutionList[i].getOutlineArea() < bestSolution->getOutlineArea())
-			bestSolution = &SolutionList[i];
+		auto consolePrint = ConsoleVisualiser_T(solution);
+		consolePrint.DrawSolution();
+		consolePrint.PrintSolutionDetails();
 	}
 
-	ConsoleVisualiser_T consolePrint(*bestSolution);
-	consolePrint.DrawSolution();
-	consolePrint.PrintSolutionDetails();
+	//Solution_T* bestSolution = &SolutionList.front();
+	//
+	//for (int i = 0; i < SolutionList.size(); i++)
+	//{
+	//	if (SolutionList[i].IsValid() &&
+	//		SolutionList[i].getOutlineArea() < bestSolution->getOutlineArea())
+	//	{
+	//		bestSolution = &SolutionList[i];
+	//	}
+	//}
+	//
+	//ConsoleVisualiser_T consolePrint(*bestSolution);
+	//consolePrint.DrawSolution();
+	//consolePrint.PrintSolutionDetails();
 }
 
 void Solver_T::CalculateTotalElementArea()

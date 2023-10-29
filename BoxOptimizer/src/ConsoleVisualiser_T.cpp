@@ -133,6 +133,7 @@ void ConsoleVisualiser_T::PrintSolutionDetails()
 {
 	std::cout << "Outline area: " << Solution.getOutlineArea() << std::endl;
 	std::cout << "Solution ID: " << Solution.id << std::endl;
+	std::cout << "Solution valid: " << Solution.IsValid() << std::endl;
 	std::cout << "\n===================================\n";
 
 }
