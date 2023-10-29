@@ -67,7 +67,7 @@ void Node_T::FindAvailableSlots()
 		availableSlots.push_back(availableSlot3);
 	}
 
-	std::sort(availableSlots.begin(), availableSlots.end(), ComparePositions);
+	std::sort(availableSlots.begin(), availableSlots.end(), comparePositions);
 }
 
 
