@@ -47,10 +47,7 @@ void Solution_T::CreateLayerMap()
 
 void Solution_T::GetLayerContours()
 {
-	//LayerContours.resize(SolutionNode->TreeLevel);
-
 	for (const Layer_T& Layer : LayerMap)
-	//for (auto it = 0; it < )
 	{
 		Contour_T contour;
 
@@ -60,36 +57,22 @@ void Solution_T::GetLayerContours()
 				std::sort(contour.begin(), contour.end(), comparePositions);
 			auto elementCountour = findElementVertexes(Node);
 
-			if (!std::is_sorted(contour.begin(), contour.end(), comparePositions))
-				std::cout << "ERROR\n";
-			if (!std::is_sorted(elementCountour.begin(), elementCountour.end(), comparePositions))
-				std::cout << "ERROR\n";
-
 			Contour_T contourIntersection;
 			std::set_intersection(contour.begin(), contour.end(),
 				elementCountour.begin(), elementCountour.end(),
 				std::back_inserter(contourIntersection), comparePositions);
 
-			Contour_T contourUnion;
-
-			if (!std::is_sorted(contour.begin(), contour.end(), comparePositions))
-				std::cout << "ERROR\n";
-			if (!std::is_sorted(elementCountour.begin(), elementCountour.end(), comparePositions))
-				std::cout << "ERROR\n";
-
+			Contour_T contourUnion;			
 
 			std::set_union(contour.begin(), contour.end(),
 				elementCountour.begin(), elementCountour.end(),
 				std::back_inserter(contourUnion), comparePositions);
 
-			//std::sort(contourIntersection.begin(), contourIntersection.end(), ComparePositions);
 			std::sort(contourUnion.begin(), contourUnion.end(), comparePositions);
 
 			std::set_difference(contourUnion.begin(), contourUnion.end(),
 				contourIntersection.begin(), contourIntersection.end(),
 				std::back_inserter(contour), comparePositions);
-
-			//contour = contourUnion;
 		}
 		std::sort(contour.begin(), contour.end(), comparePositions);
 		LayerContours.push_back(contour);
@@ -98,10 +81,7 @@ void Solution_T::GetLayerContours()
 
 static std::vector<Vertex_T> findElementVertexes(const Node_T* currentNode)
 {
-
 	//TODO add a way to handle non-rectangles
-	
-	//auto vertex_1 = currentNode->Position;
 	auto vertex_1 = Vertex_T(currentNode->Position.pos_width, currentNode->Position.pos_length, 
 		currentNode->Element.getId());
 	vertex_1.layer = currentNode->layer;
@@ -133,10 +113,6 @@ bool Solution_T::CheckOverhangValid() const
 		const auto& prevLayerContour = LayerContours[it - 1];
 		const auto& currentLayerContour = LayerContours[it];
 
-		//if (!std::is_sorted(currentLayerContour.begin(), currentLayerContour.end(), comparePositions))
-		//	std::sort(currentLayerContour.begin(), currentLayerContour.end(), comparePositions);
-
-
 		//check if upper layer extends further
 		std::vector<Vertex_T> extremePositions_currentLayer;
 		std::set_difference(currentLayerContour.begin(), currentLayerContour.end(),
@@ -154,7 +130,6 @@ bool Solution_T::CheckOverhangValid() const
 			{	 
 				if (extremePos_currenLayer.pos_length == extremePos_prevLayer.pos_length)
 				{
-					//wymiar elemetu do którego nale¿y wierzcho³ek
 					// TODO take rotations into consideration !!!!
 					
 					auto distance = extremePos_currenLayer.pos_width - extremePos_prevLayer.pos_width;
@@ -181,6 +156,5 @@ bool Solution_T::CheckOverhangValid() const
 			}
 		}
 	}
-
 	return true;
 }
