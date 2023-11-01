@@ -11,11 +11,11 @@ void Solver_T::InitializeElementsManually()
 	ElementList.push_back(Element_T(10, 5, 1, 1));
 	ElementList.push_back(Element_T(5, 5, 1, 2));
 	ElementList.push_back(Element_T(10, 5, 1, 3));
-	//ElementList.push_back(Element_T(5, 5, 1, 4));
-	//ElementList.push_back(Element_T(5, 5, 5));
-	//ElementList.push_back(Element_T(5, 5, 6));
-	//ElementList.push_back(Element_T(5, 5, 7));
-	//ElementList.push_back(Element_T(5, 5, 8));
+	ElementList.push_back(Element_T(5, 5, 1, 4));
+	ElementList.push_back(Element_T(5, 5, 1, 5));
+	ElementList.push_back(Element_T(5, 5, 1, 6));
+	//ElementList.push_back(Element_T(5, 5, 1, 7));
+	//ElementList.push_back(Element_T(5, 5, 1, 8));
 	//ElementList.push_back(Element_T(5, 5, 9));
 	//ElementList.push_back(Element_T(5, 5, 10));
 	//ElementList.push_back(Element_T(5, 5, 11));
@@ -26,7 +26,7 @@ void Solver_T::InitializeElementsManually()
 	//ElementList.push_back(Element_T(5, 5, 16));
 	//ElementList.push_back(Element_T(5, 5, 17));
 	//ElementList.push_back(Element_T(5, 5, 18));
-	numberOfElements = 3;
+	numberOfElements = 6;
 
 	NodeMap.resize(numberOfElements);
 	CalculateTotalElementArea();
@@ -37,27 +37,27 @@ void Solver_T::Solve()
 	FindSolutions();
 	//find solution with lowest area
 
-	for (const auto& solution : SolutionList)
-	{
-		auto consolePrint = ConsoleVisualiser_T(solution);
-		consolePrint.DrawSolution();
-		consolePrint.PrintSolutionDetails();
-	}
-
-	//Solution_T* bestSolution = &SolutionList.front();
-	//
-	//for (int i = 0; i < SolutionList.size(); i++)
+	//for (const auto& solution : SolutionList)
 	//{
-	//	if (SolutionList[i].IsValid() &&
-	//		SolutionList[i].getOutlineArea() < bestSolution->getOutlineArea())
-	//	{
-	//		bestSolution = &SolutionList[i];
-	//	}
+	//	auto consolePrint = ConsoleVisualiser_T(solution);
+	//	consolePrint.DrawSolution();
+	//	consolePrint.PrintSolutionDetails();
 	//}
-	//
-	//ConsoleVisualiser_T consolePrint(*bestSolution);
-	//consolePrint.DrawSolution();
-	//consolePrint.PrintSolutionDetails();
+
+	Solution_T* bestSolution = &SolutionList.front();
+	
+	for (int i = 0; i < SolutionList.size(); i++)
+	{
+		if (SolutionList[i].IsValid() &&
+			SolutionList[i].getOutlineArea() <= bestSolution->getOutlineArea())
+		{
+			bestSolution = &SolutionList[i];
+		}
+	}
+	
+	ConsoleVisualiser_T consolePrint(*bestSolution);
+	consolePrint.DrawSolution();
+	consolePrint.PrintSolutionDetails();
 }
 
 void Solver_T::CalculateTotalElementArea()

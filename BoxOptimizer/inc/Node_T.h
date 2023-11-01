@@ -19,9 +19,8 @@ public:
 	}
 
 	//Node_T(Element_T Element, Node_T* ParentNode, Position_T Position);
-	Node_T(Element_T Element, Node_T* ParentNode, Position_T Position, const Calibrations_T &calib);
+	Node_T(Element_T Element, Node_T* ParentNode, Position_T Position, int id, const Calibrations_T &calib);
 	bool isValid(NODE_MAP_T NodeMap, float totalElementArea) const;
-
 	bool CheckJackpot(const int numberOfElements, const float totalElementArea) const;
 
 	Element_T Element;
@@ -41,6 +40,7 @@ private:
 	void FindAvailableSlots();
 	bool checkNodeExists(NODE_MAP_T NodeMap) const;
 	inline bool checkAreaValid(float totalElementArea) const;	
+	int id = 0;
 };
 
 typedef NODE_MAP_T NodeMap_T;

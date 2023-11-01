@@ -12,7 +12,7 @@ void Solver_T::FindSolutions()
 void Solver_T::InitializeSolutionTree()
 {
 	Position_T RootPos = Position_T(0, 0);
-	RootNode = Node_T(ElementList.front(), NULL, RootPos, calib);
+	RootNode = Node_T(ElementList.front(), NULL, RootPos, 0, calib);
 	//ElementList.erase(ElementList.begin());
 
 	//NodeMap[0].reserve(1);
@@ -21,6 +21,7 @@ void Solver_T::InitializeSolutionTree()
 
 void Solver_T::PopulateSolutionTree()
 {
+	int id = 0;
 	for (auto it = 0; it < NodeMap.size(); it++)
 	{
 		auto TreeLayer = NodeMap[it];
@@ -43,7 +44,7 @@ void Solver_T::PopulateSolutionTree()
 					if (isPartOfSolution(element, currentNode))
 						continue;
 
-					Node_T nodeToInsert = Node_T(element, currentNode, slot, calib);
+					Node_T nodeToInsert = Node_T(element, currentNode, slot, ++id, calib);
 
 					if (nodeToInsert.isValid(NodeMap, totalElementArea))
 					{

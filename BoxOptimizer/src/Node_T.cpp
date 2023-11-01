@@ -4,12 +4,13 @@
 static bool positionValid(const Node_T* currentNode,const SlotList& parentSlots, const Position_T& position);
 static bool compareNodes(const Node_T* node1, const Node_T* node2);
 
-Node_T::Node_T(Element_T Element, Node_T* ParentNode, Position_T Position, const Calibrations_T& calib)
+Node_T::Node_T(Element_T Element, Node_T* ParentNode, Position_T Position, int id, const Calibrations_T& calib)
 {
 	this->Element = Element;
 	this->ParentNode = ParentNode;
 	TreeLevel = ParentNode == NULL ? 1 : ParentNode->TreeLevel + 1;
 	this->Position = Position;
+	this->id = id;
 
 	GetNodeLayer(calib);
 
@@ -61,7 +62,7 @@ void Node_T::FindAvailableSlots()
 	if (positionValid(this, PartentSlots, availableSlot2) && availableSlot2 != Position)
 		availableSlots.push_back(availableSlot2);
 
-	if (Position == Position_T(0, 0))
+	if (Position == Position_T(0, 0, Position.pos_height))
 	{
 		auto availableSlot3 = Position_T(0, 0, Position.pos_height + Element.getHeight());
 		availableSlots.push_back(availableSlot3);
