@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Position.h"
+#include <vector>
 
 class Element_T
 {
@@ -23,3 +24,4 @@ private:
 	int id=0;
 };
 
+typedef std::vector<Element_T> ElementList_T;

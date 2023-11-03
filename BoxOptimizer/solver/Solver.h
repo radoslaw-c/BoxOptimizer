@@ -17,20 +17,20 @@ public:
 private:
 	void FindSolutions();
 	void InitializeSolutionTree();
-	void PopulateSolutionTree();
 	void CalculateTotalElementArea();
-	void AppendToNodeMap(int treeLevel, Node_T* node);
-	void AllocateNextTreeLayerMem(int currentLayer, const std::vector<Node_T*>& TreeLayer);
 
-	std::vector<Element_T> ElementList;
+	//all the stuff related to A* algo
+	void A_starFind();
+	void AppendChildrenToNode(Node_T* currentNode);
+	std::vector<Node_T*> NodeQueue;
+
+	ElementList_T ElementList;
 	SolutionList_T SolutionList;
 	int numberOfElements = 0;
-	int solutionID = 0;
 	float totalElementArea = 0;
 
 	Calibrations_T calib;
-	std::vector<std::vector<Node_T*>> NodeMap;
+	int nodeID = 0;
 
 	Node_T RootNode;
 };
-
