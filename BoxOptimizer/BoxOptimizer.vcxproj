@@ -144,8 +144,8 @@
     <ClCompile Include="src\Node_T.cpp" />
     <ClCompile Include="src\Calibrations_T.cpp" />
     <ClCompile Include="src\Position.cpp" />
-    <ClCompile Include="solver\FindSolution.cpp" />
-    <ClCompile Include="solver\Solver.cpp" />
+    <ClCompile Include="src\FindSolution.cpp" />
+    <ClCompile Include="src\Solver.cpp" />
     <ClCompile Include="src\Element.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -155,7 +155,7 @@
     <ClInclude Include="inc\Position.h" />
     <ClInclude Include="inc\Node_T.h" />
     <ClInclude Include="inc\Solution_T.h" />
-    <ClInclude Include="solver\Solver.h" />
+    <ClInclude Include="inc\Solver.h" />
     <ClInclude Include="inc\CalculateOutlineArea.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
