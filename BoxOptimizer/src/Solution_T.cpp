@@ -5,6 +5,7 @@ static std::vector<Vertex_T> findElementVertexes(const Node_T* Node);
 Solution_T::Solution_T(Node_T* Node)
 {
 	SolutionNode = Node;
+	InitializeSolutionNodes();
 	Classify();
 }
 
@@ -12,6 +13,7 @@ Solution_T::Solution_T(Node_T* Node, int id)
 {
 	SolutionNode = Node;
 	this->id = id;
+	InitializeSolutionNodes();
 	Classify();
 }
 
@@ -19,6 +21,18 @@ void Solution_T::Classify()
 {
 	outlineArea = CalculateOutlineArea(SolutionNode);
 	LayerValidity();
+}
+
+void Solution_T::InitializeSolutionNodes()
+{
+	solutionNodes.reserve(SolutionNode->TreeLevel);
+	const Node_T* currentNode = SolutionNode;
+
+	while (currentNode != nullptr)
+	{
+		solutionNodes.push_back(currentNode);
+		currentNode = currentNode->ParentNode;
+	}
 }
 
 void Solution_T::LayerValidity()

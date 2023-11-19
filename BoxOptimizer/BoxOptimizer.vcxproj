@@ -71,12 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)inc;$(ProjectDir)solver;$(IncludePath)</IncludePath>
-    <SourcePath>$(ProjectDir)src;$(ProjectDir)solver;$(SourcePath)</SourcePath>
+    <IncludePath>$(ProjectDir)inc\GUI;$(ProjectDir)inc\external\msvc;$(ProjectDir)inc;$(ProjectDir)inc\external;$(IncludePath)</IncludePath>
+    <SourcePath>ProjectDir)src\GUI;$(ProjectDir)src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)inc;$(ProjectDir)solver;$(IncludePath)</IncludePath>
-    <SourcePath>$(ProjectDir)src;$(ProjectDir)solver;$(SourcePath)</SourcePath>
+    <IncludePath>$(ProjectDir)inc\GUI;$(ProjectDir)inc\external\msvc;$(ProjectDir)inc;$(ProjectDir)inc\external;$(IncludePath)</IncludePath>
+    <SourcePath>ProjectDir)src\GUI;$(ProjectDir)src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -110,13 +110,15 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib;$(ProjectDir)lib\vc_x64_lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -125,18 +127,26 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib;$(ProjectDir)lib\vc_x64_lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\DataFrame_T.cpp" />
+    <ClCompile Include="src\CSVParser_T.cpp" />
+    <ClCompile Include="src\GUI\screenObjects\Element_T.cpp" />
+    <ClCompile Include="src\GUI\screenObjects\Primitive_T.cpp" />
+    <ClCompile Include="src\GUI\MainFrame_T.cpp" />
+    <ClCompile Include="src\GUI\Application.cpp" />
     <ClCompile Include="BoxOptimizer.cpp" />
     <ClCompile Include="src\ConsoleVisualiser_T.cpp" />
     <ClCompile Include="src\CalculateOutlineArea.cpp" />
@@ -144,19 +154,32 @@
     <ClCompile Include="src\Node_T.cpp" />
     <ClCompile Include="src\Calibrations_T.cpp" />
     <ClCompile Include="src\Position.cpp" />
-    <ClCompile Include="solver\FindSolution.cpp" />
-    <ClCompile Include="solver\Solver.cpp" />
+    <ClCompile Include="src\FindSolution.cpp" />
+    <ClCompile Include="src\Solver.cpp" />
     <ClCompile Include="src\Element.cpp" />
+    <ClCompile Include="src\GUI\ViewPort3D_T.cpp" />
+    <ClCompile Include="src\GUI\screenObjects\WorldGrid_T.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\DataFrame_T.h" />
+    <ClInclude Include="inc\CSVParser_T.h" />
+    <ClInclude Include="inc\GUI\screenObjects\Element_T.h" />
+    <ClInclude Include="inc\GUI\Application.h" />
     <ClInclude Include="inc\ConsoleVisualiser_T.h" />
     <ClInclude Include="inc\Calibrations_T.h" />
     <ClInclude Include="inc\Element.h" />
     <ClInclude Include="inc\Position.h" />
     <ClInclude Include="inc\Node_T.h" />
     <ClInclude Include="inc\Solution_T.h" />
-    <ClInclude Include="solver\Solver.h" />
+    <ClInclude Include="inc\Solver.h" />
     <ClInclude Include="inc\CalculateOutlineArea.h" />
+    <ClInclude Include="inc\GUI\MainFrame_T.h" />
+    <ClInclude Include="inc\GUI\ViewPort3D_T.h" />
+    <ClInclude Include="inc\GUI\screenObjects\Primitive_T.h" />
+    <ClInclude Include="inc\GUI\screenObjects\WorldGrid_T.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\vertexShader.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
