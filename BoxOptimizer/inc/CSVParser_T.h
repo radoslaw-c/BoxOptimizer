@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <ranges>
 
 class DataFrame_T
 {
@@ -19,6 +20,7 @@ public:
 
 private:
 	unsigned int dataCounter = 0;
+
 };
 
 class CSVParser_T
