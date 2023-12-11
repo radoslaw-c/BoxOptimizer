@@ -20,12 +20,17 @@ public:
 	Solution_T(Node_T* Node, int id);
 	Solution_T() {};
 	bool IsValid() const { return layerValid; }
-	Node_T* SolutionNode;
+	Node_T* SolutionNode;	// TODO to be changed to the const Node_T*
 	int id = -1;
 	float getOutlineArea() { return outlineArea; }
 
+	// getters
+	std::vector<const Node_T*> SolutionNodes() const { return solutionNodes; };
+	
+
 private:
 	void Classify();
+	void InitializeSolutionNodes();
 	void LayerValidity();
 	void CreateLayerMap();
 	void GetLayerContours();
@@ -33,6 +38,8 @@ private:
 
 	float outlineArea = std::numeric_limits<float>::max();
 	bool layerValid = false;
+
+	std::vector<const Node_T*> solutionNodes;
 
 	LayerMap_T LayerMap;
 	LayerContours_T LayerContours;

@@ -2,6 +2,8 @@
 #include "Calibrations_T.h"
 #include "Solution_T.h"
 #include "ConsoleVisualiser_T.h"
+#include "DataFrame_T.h"
+
 #include <vector>
 #include <iostream>
 
@@ -11,8 +13,8 @@ class Solver_T
 public:
 	Solver_T();
 	void InitializeElementsManually();
-
-	void Solve(); // :)
+	void LoadElementData(const DataFrame_T& data);
+	Solution_T Solve(); // :)
 
 private:
 	void FindSolutions();

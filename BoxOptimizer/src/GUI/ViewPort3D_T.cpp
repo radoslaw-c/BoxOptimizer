@@ -142,11 +142,14 @@ bool ViewPort3D_T::InitializeOpenGL()
 	glDepthFunc(GL_LESS);
 
 	WorldGrid.Initialize();
-	Element.Initialize();
-	Element2.Initialize();
 
 	isOpenGLInitialized = true;
 	return true;
+}
+
+void ViewPort3D_T::DrawSolution(const Solution_T& Solution)
+{
+	InitializeSolutionElements(Solution);
 }
 
 void ViewPort3D_T::OnPaint(wxPaintEvent& event)
@@ -170,8 +173,11 @@ void ViewPort3D_T::OnPaint(wxPaintEvent& event)
 	ApplyTransformations();
 
 	WorldGrid.Draw();
-	Element.Draw();
-	Element2.Draw();
+	
+	for (auto& Element : SolutionElements)
+	{
+		Element.Draw();
+	}
 
 	SwapBuffers();
 }
@@ -307,4 +313,30 @@ void ViewPort3D_T::ApplyTransformations()
 		0.1f, 1000.0f);
 
 	glUniformMatrix4fv(u_projectionMatrix, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+}
+
+void ViewPort3D_T::InitializeSolutionElements(const Solution_T& Solution)
+{
+	SolutionElements.reserve(Solution.SolutionNodes().size());
+
+	for (const auto* SolutionNode : Solution.SolutionNodes())
+	{
+		auto elementToInsert = GUIObjects::Element_T
+		(
+			SolutionNode->Position.pos_width / 1000.0f,
+			SolutionNode->Position.pos_height / 1000.0f,
+			SolutionNode->Position.pos_length / 1000.0f,
+			SolutionNode->Element.getWidth() / 1000.0f,
+			SolutionNode->Element.getHeight() / 1000.0f,
+			SolutionNode->Element.getLength() / 1000.0f
+		);
+
+		SolutionElements.push_back(elementToInsert);
+	}
+
+	// initialize for OpenGL
+	for (auto& Element : SolutionElements)
+	{
+		Element.Initialize();
+	}
 }

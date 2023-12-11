@@ -10,6 +10,7 @@
 
 #include "screenObjects/WorldGrid_T.h"
 #include "screenObjects/Element_T.h"
+#include "Solution_T.h"
 
 class ViewPort3D_T : public wxGLCanvas
 {
@@ -19,6 +20,8 @@ public:
 
 	bool InitializeOpenGLFunctions();
 	bool InitializeOpenGL();
+
+	void DrawSolution(const Solution_T& Solution);
 
 	void OnPaint(wxPaintEvent& event);
 	void OnSize(wxSizeEvent& event);
@@ -45,8 +48,10 @@ private:
 
 	// screen objects
 	WorldGrid_T WorldGrid;
-	GUIObjects::Element_T Element = GUIObjects::Element_T(0.0f, 0.0f, 0.0f);
-	GUIObjects::Element_T Element2 = GUIObjects::Element_T(0.0f, 0.05f, 0.0f);;
+	//GUIObjects::Element_T Element = GUIObjects::Element_T(0.0f, 0.0f, 0.0f);
+	//GUIObjects::Element_T Element2 = GUIObjects::Element_T(0.0f, 0.05f, 0.0f);;
+
+	std::vector<GUIObjects::Element_T> SolutionElements;
 
 	//methods
 	void FindUniforms();
@@ -54,6 +59,8 @@ private:
 	void OnMouseMoved(wxMouseEvent& event);
 
 	void ApplyTransformations();
+
+	void InitializeSolutionElements(const Solution_T& Solution);
 };
 
 

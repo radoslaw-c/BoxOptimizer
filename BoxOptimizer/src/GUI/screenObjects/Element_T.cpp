@@ -1,12 +1,17 @@
 #include "screenObjects/Element_T.h"
 
 using GUIObjects::Element_T;
-Element_T::Element_T(const float pos_x, const float pos_y,
-	const float pos_z) : Primitive_T(GL_TRIANGLES)
+Element_T::Element_T(float pos_x, float pos_y, float pos_z,
+	float width, float height, float length) : Primitive_T(GL_TRIANGLES)
 {
 	elementPosition.pos_width = pos_x;
 	elementPosition.pos_height = pos_y;
 	elementPosition.pos_length = pos_z;
+
+	this->width = width;
+	this->height = height;
+	this->length = length;
+
 	InitializeVertexData();
 }
 

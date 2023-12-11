@@ -7,8 +7,8 @@ namespace GUIObjects
 	class Element_T : public Primitive_T
 	{
 	public:
-		Element_T(const float pos_x, const float pos_y, 
-			const float pos_z);
+		Element_T(float pos_x, float pos_y, float pos_z, 
+			float width, float height, float length);
 
 	private:
 		void InitializeVertexData();

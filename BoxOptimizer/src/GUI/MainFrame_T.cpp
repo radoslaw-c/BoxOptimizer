@@ -17,7 +17,13 @@ MainFrame_T::MainFrame_T(const wxString& title, const wxPoint& pos, const wxSize
 
 	auto* leftPanel = new wxPanel(mainSplitter);
 
-	auto loadDataButton = new wxButton(leftPanel, LOAD_DATA_BUTTON_ID, "TEST");
+	auto* arrangeButtonsSizer = new wxBoxSizer(wxHORIZONTAL);
+	auto* loadDataButton = new wxButton(leftPanel, LOAD_DATA_BUTTON_ID, "Load csv data");
+	auto* solveProblemButton = new wxButton(leftPanel, SOLVE_BUTTON_ID, "Solve!");
+
+	arrangeButtonsSizer->Add(loadDataButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
+	arrangeButtonsSizer->Add(solveProblemButton, 0, wxALL, 5);
+	leftPanel->SetSizer(arrangeButtonsSizer);
 
 	leftPanel->SetBackgroundColour(wxColor(0xd9, 0xdd, 0xdc));
 
@@ -41,6 +47,17 @@ void MainFrame_T::LoadDataFromCSV(wxCommandEvent& e)
 	DataParser = CSVParser_T(dataFilePath);
 }
 
+void MainFrame_T::FindSolutions(wxCommandEvent& e)
+{
+	auto mainSolver = Solver_T();
+	mainSolver.InitializeElementsManually();
+	//mainSolver.LoadElementData(DataParser.DataFrame());
+	Solution = mainSolver.Solve();
+
+	ViewPort3D->DrawSolution(Solution);
+}
+
 wxBEGIN_EVENT_TABLE(MainFrame_T, wxFrame)
 EVT_BUTTON(LOAD_DATA_BUTTON_ID, MainFrame_T::LoadDataFromCSV)
+EVT_BUTTON(SOLVE_BUTTON_ID, MainFrame_T::FindSolutions)
 wxEND_EVENT_TABLE()
