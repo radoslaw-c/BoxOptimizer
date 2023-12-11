@@ -1,7 +1,7 @@
 #include "ViewPort3D_T.h"
 
 ViewPort3D_T::ViewPort3D_T(wxWindow* parent, const wxGLAttributes& canvasAttrs) :
-	wxGLCanvas(parent, canvasAttrs)
+	wxGLCanvas(parent, canvasAttrs, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxWANTS_CHARS)
 {
 	wxGLContextAttrs ctxAttrs;
 	ctxAttrs.PlatformDefaults().CoreProfile().OGLVersion(3, 3).EndList();
@@ -232,29 +232,27 @@ void ViewPort3D_T::OnKeyDown(wxKeyEvent& event)
 void ViewPort3D_T::OnMouseMoved(wxMouseEvent& event)
 {
 	wxPoint mousePos = wxGetMousePosition();
-	
 
-	if (wxGetMouseState().LeftIsDown())
+	if (wxGetMouseState().MiddleIsDown())
 	{
-		const float sensivity = 0.05f;
+		const float sensivity = 0.5f;
+		const auto pivotPoint = glm::vec4(cameraFront, 1.0f);
 		const float delta_x = (prevMousePos.x - mousePos.x) * sensivity;
-		const float delta_y = -1 * (prevMousePos.y - mousePos.y) * sensivity;
+		
+		auto rotateMatrix = glm::mat4(1.0f);
+		auto tempPos = glm::vec4(cameraPos, 1.0f);
+		rotateMatrix = glm::rotate(rotateMatrix, glm::radians(delta_x), glm::vec3(0.0f, 1.0f, 0.0f));
+		tempPos = (rotateMatrix * (tempPos - pivotPoint)) + pivotPoint;
 
-		yaw += delta_x;
-		pitch += delta_y;
+		const float delta_y = (prevMousePos.y - mousePos.y) * sensivity;
+		rotateMatrix = glm::mat4(1.0f);
+		rotateMatrix = glm::rotate(rotateMatrix, glm::radians(-1.0f * delta_y), glm::vec3(-1.0f, 0.0f, 0.0f));
+		tempPos = (rotateMatrix * (tempPos - pivotPoint)) + pivotPoint;
 
-		if (pitch > 89.0f)
-			pitch = 89.0f;
-		if (pitch < -89.0f)
-			pitch = -89.0f;
 
-		glm::vec3 direction;
-		direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-		direction.y = sin(glm::radians(pitch));
-		direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-		cameraFront = glm::normalize(direction);
+		cameraPos = tempPos;
+		wxLogDebug("camera pos x: %f", cameraPos.x);
 	}
-	
 	
 	prevMousePos = mousePos;
 	Refresh();
@@ -262,7 +260,7 @@ void ViewPort3D_T::OnMouseMoved(wxMouseEvent& event)
 
 void ViewPort3D_T::ApplyTransformations()
 {
-	auto cameraMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+	auto cameraMatrix = glm::lookAt(cameraPos, cameraFront, cameraUp);
 
 	glUniformMatrix4fv(u_cameraMatrix, 1, GL_FALSE, glm::value_ptr(cameraMatrix));
 
