@@ -18,41 +18,40 @@ public:
 	static constexpr auto vertices = std::array
 	{
 		// front
-		-0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, // 0
-		0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,  // 1
-		0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 0.0f,   // 2
-		-0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 0.0f,  // 3
+		-0.05f, -0.05f, -0.05f, 1.0f, 0.0f, 0.0f, // 0
+		 0.05f, -0.05f, -0.05f, 1.0f, 0.0f, 0.0f,  // 1
+		 0.05f,  0.05f, -0.05f, 1.0f, 0.0f, 0.0f,   // 2
+		-0.05f,  0.05f, -0.05f, 1.0f, 0.0f, 0.0f,  // 3
 
 		// top
-		-0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // 4
-		0.5f, 0.5f, -0.5f, 0.0f, 0.0f, 1.0f,  // 5
-		0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f,   // 6
-		-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f,  // 7
+		-0.05f, 0.05f, -0.05f, 0.0f, 0.0f, 1.0f, // 4
+		 0.05f, 0.05f, -0.05f, 0.0f, 0.0f, 1.0f,  // 5
+		 0.05f, 0.05f,  0.05f, 0.0f, 0.0f, 1.0f,   // 6
+		-0.05f, 0.05f,  0.05f, 0.0f, 0.0f, 1.0f,  // 7
 
 		// left
-		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // 8
-		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,  // 9
-		-0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f,   // 10
-		-0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 0.0f,  // 11
+		-0.05f, -0.05f, -0.05f, 0.0f, 1.0f, 0.0f, // 8
+		-0.05f,  0.05f, -0.05f, 0.0f, 1.0f, 0.0f,  // 9
+		-0.05f,  0.05f,  0.05f, 0.0f, 1.0f, 0.0f,   // 10
+		-0.05f, -0.05f,  0.05f, 0.0f, 1.0f, 0.0f,  // 11
 
 		// right
-		0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, // 12
-		0.5f, 0.5f, -0.5f, 0.5f, 0.5f, 0.5f,  // 13
-		0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f,   // 14
-		0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f,  // 15
+		0.05f, -0.05f, -0.05f, 0.5f, 0.5f, 0.5f, // 12
+		0.05f,  0.05f, -0.05f, 0.5f, 0.5f, 0.5f,  // 13
+		0.05f,  0.05f,  0.05f, 0.5f, 0.5f, 0.5f,   // 14
+		0.05f, -0.05f,  0.05f, 0.5f, 0.5f, 0.5f,  // 15
 
 		// back
-		-0.5f, -0.5f, 0.5f, 0.7f, 0.7f, 0.7f, // 16
-		0.5f, -0.5f, 0.5f, 0.7f, 0.7f, 0.7f,  // 17
-		0.5f, 0.5f, 0.5f, 0.7f, 0.7f, 0.7f,   // 18
-		-0.5f, 0.5f, 0.5f, 0.7f, 0.7f, 0.7f,  // 19
+		-0.05f, -0.05f, 0.05f, 0.7f, 0.7f, 0.7f, // 16
+		 0.05f, -0.05f, 0.05f, 0.7f, 0.7f, 0.7f,  // 17
+		 0.05f,  0.05f, 0.05f, 0.7f, 0.7f, 0.7f,   // 18
+		-0.05f,  0.05f, 0.05f, 0.7f, 0.7f, 0.7f,  // 19
 
 		// bottom
-		-0.5f, -0.5f, 0.5f, 0.3f, 0.3f, 0.3f, // 20
-		0.5f, -0.5f, 0.5f, 0.3f, 0.3f, 0.3f,  // 21
-		0.5f, -0.5f, -0.5f, 0.3f, 0.3f, 0.3f, // 22
-		-0.5f, -0.5f, -0.5f, 0.3f, 0.3f, 0.3f // 23
-
+		-0.05f, -0.05f,  0.05f, 0.3f, 0.3f, 0.3f, // 20
+		 0.05f, -0.05f,  0.05f, 0.3f, 0.3f, 0.3f,  // 21
+		 0.05f, -0.05f, -0.05f, 0.3f, 0.3f, 0.3f, // 22
+		-0.05f, -0.05f, -0.05f, 0.3f, 0.3f, 0.3f // 23
 
 	};
 
@@ -84,6 +83,19 @@ public:
 	};
 };
 
+class Grid_T
+{
+public:
+	Grid_T();
+
+	std::vector<float> vertexArray;
+	std::vector<unsigned int> elementBuffer;
+
+private:
+	int numberOfVerts = 100;
+	int maxDist = 50; //dist range <-1000; 1000>
+};
+
 class ViewPort3D_T : public wxGLCanvas
 {
 public:
@@ -100,14 +112,17 @@ private:
 	wxGLContext* openGLContext{ NULL };
 	bool isOpenGLInitialized{ false };
 	Cube_T testCube = Cube_T();
+	Grid_T grid = Grid_T();
 
 	GLint u_modelMatrix{ -1 };
-	GLint u_viewMatrix{ -1 };
+	GLint u_cameraMatrix{ -1 };
 	GLint u_projectionMatrix{ -1 };
 
 	wxSize viewPortSize;
 
 	unsigned int VAO{ 0 }, VBO{ 0 }, EBO{ 0 }, shaderProgram{ 0 };
+	unsigned int gridVertexBuffer{ 0 }, gridVertexAttribObj{ 0 },
+		gridElementBuffer{ 0 };
 
 	float angle_x{ 0 }, angle_y{ 0 };
 

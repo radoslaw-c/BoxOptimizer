@@ -69,14 +69,14 @@ bool ViewPort3D_T::InitializeOpenGL()
 		layout (location = 1) in vec3 aColor;
 
 		uniform mat4 modelMatrix;
-		uniform mat4 viewMatrix;
+		uniform mat4 cameraMatrix;
 		uniform mat4 projectionMatrix;
 
 		out vec3 vertexColor;
 
 		void main()
 		{
-			gl_Position = modelMatrix * vec4(aPos.x, aPos.y, aPos.z, 1.0);
+			gl_Position = projectionMatrix * cameraMatrix *  modelMatrix *vec4(aPos.x, aPos.y, aPos.z, 1.0);
 			vertexColor = aColor;
 		}
 	)";
@@ -140,7 +140,7 @@ bool ViewPort3D_T::InitializeOpenGL()
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, testCube.vertices.size() * sizeof(float), testCube.vertices.data(), GL_STATIC_DRAW);
-	
+
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
@@ -155,15 +155,38 @@ bool ViewPort3D_T::InitializeOpenGL()
 		testCube.elementBuffer.data(), 
 		GL_STATIC_DRAW);
 	
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	// pass grid data
+	glGenVertexArrays(1, &gridVertexAttribObj);
+	glBindVertexArray(gridVertexAttribObj);
+	
+	glGenBuffers(1, &gridVertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, gridVertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, grid.vertexArray.size() * sizeof(float), grid.vertexArray.data(), GL_STATIC_DRAW);
 
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glGenBuffers(1, &gridElementBuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gridElementBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+		grid.elementBuffer.size() * sizeof(unsigned int),
+		grid.elementBuffer.data(),
+		GL_STATIC_DRAW);
+
+	// colors
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+
+
+	// unbind buffers
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
 	FindUniforms();
 
 	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_GREATER);
+	glDepthFunc(GL_LESS);
 
 	isOpenGLInitialized = true;
 	return true;
@@ -181,7 +204,7 @@ void ViewPort3D_T::OnPaint(wxPaintEvent& event)
 	// check for image depth
 	GLint depthFuncValue;
 	glGetIntegerv(GL_DEPTH_FUNC, &depthFuncValue);
-	glClearDepth(depthFuncValue == GL_LEQUAL ? 1.0f : 0.0f);
+	glClearDepth(depthFuncValue == GL_LEQUAL ? 0.0f : 1.0f);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -192,6 +215,13 @@ void ViewPort3D_T::OnPaint(wxPaintEvent& event)
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glDrawElements(GL_TRIANGLES, testCube.elementBuffer.size(), GL_UNSIGNED_INT, 0);
+
+	glBindVertexArray(gridVertexAttribObj);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gridElementBuffer);
+	glDrawElements(GL_POINTS, grid.elementBuffer.size(), GL_UNSIGNED_INT, 0);
+	//glDrawArrays(GL_LINES, 0, grid.vertexArray.size() / 6);
+
+
 
 	SwapBuffers();
 }
@@ -217,7 +247,7 @@ void ViewPort3D_T::FindUniforms()
 	// TODO add check for -1 -- invalid OR not found
 
 	u_modelMatrix = glGetUniformLocation(shaderProgram, "modelMatrix");
-	u_viewMatrix = glGetUniformLocation(shaderProgram, "viewMatrix");
+	u_cameraMatrix = glGetUniformLocation(shaderProgram, "cameraMatrix");
 	u_projectionMatrix = glGetUniformLocation(shaderProgram, "projectionMatrix");
 }
 
@@ -259,11 +289,50 @@ void ViewPort3D_T::ApplyTransformations()
 	modelMatrix = glm::rotate(modelMatrix, glm::radians(angle_y), glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(u_modelMatrix, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 
-	// view matrix
-	// TODO coming soon ;)
+	// view matrix --- seems to be replaced by camera matrix
+
+	// camera matrix
+	auto cameraMatrix = glm::lookAt(glm::vec3(0.0f, 20.0f, 1.1f), glm::vec3(0.0f, 0.0f, 0.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(u_cameraMatrix, 1, GL_FALSE, glm::value_ptr(cameraMatrix));
 
 	// projection matrix
-	auto projectionMatrix = glm::perspective(glm::radians(45.0f), (float)viewPortSize.y / viewPortSize.x,
+	auto projectionMatrix = glm::perspective(glm::radians(45.0f), (float)viewPortSize.y / (float)viewPortSize.x,
 		0.1f, 100.0f);
+	glUniformMatrix4fv(u_projectionMatrix, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+}
 
+Grid_T::Grid_T()
+{
+	vertexArray.resize(numberOfVerts * numberOfVerts * 6);
+	elementBuffer.resize(numberOfVerts * numberOfVerts * 2);
+
+	float step = 2 * (float)maxDist / (numberOfVerts - 1);
+
+	for (int row = 0; row < numberOfVerts; ++row)
+	{
+		for (int column = 0; column < numberOfVerts; ++column)
+		{
+			auto x = -1 * maxDist + column * step;
+			auto y = 0.0f;
+			auto z = -1 * maxDist + row * step;
+
+			auto r = 1.0f;
+			auto g = 1.0f;
+			auto b = 1.0;
+
+			const auto vertexStrartIndex = (row * numberOfVerts + column) * 6;
+			vertexArray[vertexStrartIndex + 0] = x;
+			vertexArray[vertexStrartIndex + 1] = y;
+			vertexArray[vertexStrartIndex + 2] = z;
+			vertexArray[vertexStrartIndex + 3] = r;
+			vertexArray[vertexStrartIndex + 4] = g;
+			vertexArray[vertexStrartIndex + 5] = b;
+		}
+	}
+
+	for (int idx = 0; idx < elementBuffer.size(); ++idx)
+	{
+		elementBuffer[idx] = idx;
+	}
 }
