@@ -60,6 +60,9 @@
     <ClCompile Include="src\GUI\screenObjects\WorldGrid_T.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\GUI\screenObjects\Element_T.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\Element.h">
@@ -99,6 +102,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="inc\GUI\screenObjects\WorldGrid_T.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\GUI\screenObjects\Element_T.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

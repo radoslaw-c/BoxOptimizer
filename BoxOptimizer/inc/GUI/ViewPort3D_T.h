@@ -9,6 +9,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "screenObjects/WorldGrid_T.h"
+#include "screenObjects/Element_T.h"
 
 class Cube_T
 {
@@ -117,7 +118,7 @@ private:
 
 	// screen objects
 	WorldGrid_T WorldGrid;
-
+	GUIObjects::Element_T Element;
 
 	//methods
 	void FindUniforms();

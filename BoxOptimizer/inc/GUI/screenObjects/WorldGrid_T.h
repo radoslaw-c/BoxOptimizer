@@ -10,6 +10,6 @@ private:
 	void InitializeVertexData();
 
 	// fields
-	int numberOfVerts = 100;
+	int numberOfVerts = 101;
 	int maxDist = 20; //dist range <-20; 20>
 };
