@@ -16,6 +16,8 @@ void MainFrame_T::LoadDataFromCSV(wxCommandEvent& e)
 
 	auto dataFilePath = std::string(fileDialog.GetPath().mb_str());
 	DataParser = CSVParser_T(dataFilePath);
+
+	TextCtrls.dataPathTextCntrl->ChangeValue(dataFilePath);
 }
 
 void MainFrame_T::FindSolutions(wxCommandEvent& e)
@@ -46,28 +48,42 @@ void MainFrame_T::InitializeUI()
 
 	controlsPanel = new wxPanel(mainSplitter);
 	PolulateControlsPanel();
+	mainSplitter->SplitVertically(controlsPanel, ViewPort3D);
 }
 
 void MainFrame_T::PolulateControlsPanel()
 {
-	
-	Sizers.arrangeControlsSizer = new wxBoxSizer(wxHORIZONTAL);
-	Buttons.loadDataButton = new wxButton(controlsPanel, LOAD_DATA_BUTTON_ID, "Load csv data");
-	Buttons.solveProblemButton = new wxButton(controlsPanel, SOLVE_BUTTON_ID, "Solve!");
+	PopulateDataLoadingArea();
+	PopulateResultsArea();
 
-	TextCtrls.dataPathTextCntrl = new wxTextCtrl(controlsPanel, DATA_PATH_TXTCTRL_ID);
-
-	StaticBoxes.dataLoading = new wxStaticBox(controlsPanel, wxID_ANY, "Load data to solve");
-
-	Sizers.arrangeControlsSizer->Add(TextCtrls.dataPathTextCntrl, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
-	Sizers.arrangeControlsSizer->Add(Buttons.loadDataButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
-	Sizers.arrangeControlsSizer->Add(Buttons.solveProblemButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
-	Sizers.arrangeControlsSizer->Add(StaticBoxes.dataLoading, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
-
-	controlsPanel->SetSizer(Sizers.arrangeControlsSizer);
-
+	controlsPanel->SetSizer(Sizers.mainVerticalSizer);
 	controlsPanel->SetBackgroundColour(wxColor(0xd9, 0xdd, 0xdc));
-	mainSplitter->SplitVertically(controlsPanel, ViewPort3D);
+}
+
+void MainFrame_T::PopulateDataLoadingArea()
+{
+	StaticBoxes.dataLoading = new wxStaticBox(controlsPanel, wxID_ANY, "Load data to solve");
+	wxStaticBoxSizer* dataLoadingSizer = new wxStaticBoxSizer(StaticBoxes.dataLoading, wxHORIZONTAL);
+
+	Buttons.loadDataButton = new wxButton(StaticBoxes.dataLoading, LOAD_DATA_BUTTON_ID, "Load csv data");
+	dataLoadingSizer->Add(Buttons.loadDataButton);
+
+	TextCtrls.dataPathTextCntrl = new wxTextCtrl(controlsPanel, DATA_PATH_TXTCTRL_ID, 
+		wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY);
+	dataLoadingSizer->Add(TextCtrls.dataPathTextCntrl, 1, wxLEFT | wxEXPAND, 5);
+
+	Sizers.mainVerticalSizer->Add(dataLoadingSizer, 0, wxEXPAND);
+}
+
+void MainFrame_T::PopulateResultsArea()
+{
+	StaticBoxes.results = new wxStaticBox(controlsPanel, wxID_ANY, "Results");
+	wxStaticBoxSizer* verticalResultsSizer = new wxStaticBoxSizer(StaticBoxes.results, wxVERTICAL);
+
+	Buttons.solveProblemButton = new wxButton(controlsPanel, SOLVE_BUTTON_ID, "Solve!");
+	verticalResultsSizer->Add(Buttons.solveProblemButton);
+
+	Sizers.mainVerticalSizer->Add(verticalResultsSizer, 0, wxEXPAND);
 }
 
 wxBEGIN_EVENT_TABLE(MainFrame_T, wxFrame)

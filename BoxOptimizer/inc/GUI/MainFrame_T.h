@@ -27,6 +27,8 @@ private:
 	// GUI definition methods
 	void InitializeUI();
 	void PolulateControlsPanel();
+	void PopulateDataLoadingArea();
+	void PopulateResultsArea();
 
 	// GUI elements
 	wxSplitterWindow* mainSplitter{};
@@ -42,14 +44,13 @@ private:
 	struct StaticBoxes_T
 	{
 		wxStaticBox* dataLoading{};
+		wxStaticBox* results{};
 	};
 	StaticBoxes_T StaticBoxes;
 
 	struct Sizers_T
 	{
-
-		wxBoxSizer* arrangeControlsSizer{};
-
+		wxBoxSizer* mainVerticalSizer = new wxBoxSizer(wxVERTICAL);
 	};
 	Sizers_T Sizers;
 
