@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\GUI\screenObjects\Primitive_T.cpp" />
     <ClCompile Include="src\GUI\MainFrame_T.cpp" />
     <ClCompile Include="src\GUI\Application.cpp" />
     <ClCompile Include="BoxOptimizer.cpp" />
@@ -154,6 +155,7 @@
     <ClCompile Include="src\Solver.cpp" />
     <ClCompile Include="src\Element.cpp" />
     <ClCompile Include="src\GUI\ViewPort3D_T.cpp" />
+    <ClCompile Include="src\GUI\screenObjects\WorldGrid_T.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\GUI\Application.h" />
@@ -167,6 +169,8 @@
     <ClInclude Include="inc\CalculateOutlineArea.h" />
     <ClInclude Include="inc\GUI\MainFrame_T.h" />
     <ClInclude Include="inc\GUI\ViewPort3D_T.h" />
+    <ClInclude Include="inc\GUI\screenObjects\Primitive_T.h" />
+    <ClInclude Include="inc\GUI\screenObjects\WorldGrid_T.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\vertexShader.glsl" />

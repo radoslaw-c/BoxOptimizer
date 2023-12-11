@@ -8,6 +8,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "screenObjects/WorldGrid_T.h"
+
 class Cube_T
 {
 public:
@@ -125,6 +127,10 @@ private:
 		gridElementBuffer{ 0 };
 
 	float angle_x{ 0 }, angle_y{ 0 };
+
+	// screen objects
+	WorldGrid_T WorldGrid;
+
 
 	//methods
 	void FindUniforms();

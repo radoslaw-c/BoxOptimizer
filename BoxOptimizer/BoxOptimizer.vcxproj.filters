@@ -54,6 +54,12 @@
     <ClCompile Include="src\GUI\ViewPort3D_T.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\GUI\screenObjects\Primitive_T.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GUI\screenObjects\WorldGrid_T.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\Element.h">
@@ -87,6 +93,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="inc\GUI\ViewPort3D_T.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\GUI\screenObjects\Primitive_T.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\GUI\screenObjects\WorldGrid_T.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

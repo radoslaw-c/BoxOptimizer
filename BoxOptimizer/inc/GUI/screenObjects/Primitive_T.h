@@ -12,9 +12,10 @@ class Primitive_T
 public:
 	Primitive_T(GLenum drawingMode);
 	~Primitive_T();
+	void Initialize();
 	void Draw();
 
-private:
+protected:
 	// methods
 	void CreateBuffers();
 	void InitializeVertexArray();
@@ -28,10 +29,11 @@ private:
 	unsigned int elementArrayBuffer{ 0 };	//buffer storing relations between vertices for drawing
 	std::array<unsigned int, 2> buffers{ 0,0 };
 
-	GLenum drawingMode;
-
 	// fields - data
-	std::vector<float> vertexData;
+	std::vector<float> vertexData; 
 	std::vector<unsigned int> elementBuffer;
+
+private:
+	GLenum drawingMode;
 };
 

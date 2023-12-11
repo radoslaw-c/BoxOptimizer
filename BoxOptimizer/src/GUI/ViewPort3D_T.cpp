@@ -155,27 +155,55 @@ bool ViewPort3D_T::InitializeOpenGL()
 		testCube.elementBuffer.data(), 
 		GL_STATIC_DRAW);
 	
-	// pass grid data
-	glGenVertexArrays(1, &gridVertexAttribObj);
-	glBindVertexArray(gridVertexAttribObj);
-	
-	glGenBuffers(1, &gridVertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, gridVertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, grid.vertexArray.size() * sizeof(float), grid.vertexArray.data(), GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
 
-	glGenBuffers(1, &gridElementBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gridElementBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-		grid.elementBuffer.size() * sizeof(unsigned int),
-		grid.elementBuffer.data(),
-		GL_STATIC_DRAW);
 
-	// colors
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
+
+	 // pass grid data
+	 glGenVertexArrays(1, &gridVertexAttribObj);
+	 glBindVertexArray(gridVertexAttribObj);
+	 
+	 glGenBuffers(1, &gridVertexBuffer);
+	 glBindBuffer(GL_ARRAY_BUFFER, gridVertexBuffer);
+	 glBufferData(GL_ARRAY_BUFFER, grid.vertexArray.size() * sizeof(float), grid.vertexArray.data(), GL_STATIC_DRAW);
+	 
+	 glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	 glEnableVertexAttribArray(0);
+	 
+	 glGenBuffers(1, &gridElementBuffer);
+	 glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gridElementBuffer);
+	 glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+	 	grid.elementBuffer.size() * sizeof(unsigned int),
+	 	grid.elementBuffer.data(),
+	 	GL_STATIC_DRAW);
+	 
+	 // colors
+	 glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	 glEnableVertexAttribArray(1);
+
+	//// CreateBuffers()
+	//glGenVertexArrays(1, &gridVertexAttribObj);
+	//glGenBuffers(1, &gridVertexBuffer);
+	//glGenBuffers(1, &gridElementBuffer);
+	//
+	////InitializeVertexArray()
+	//glBindVertexArray(gridVertexAttribObj);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	//glEnableVertexAttribArray(0);
+	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	//glEnableVertexAttribArray(1);
+	//
+	////InitializeBuffers()
+	//glBindVertexArray(gridVertexAttribObj);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gridElementBuffer);
+	//glBindBuffer(GL_ARRAY_BUFFER, gridVertexBuffer);
+	//
+	//glBufferData(GL_ARRAY_BUFFER, grid.vertexArray.size() * sizeof(float), grid.vertexArray.data(), GL_STATIC_DRAW);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+	//	grid.elementBuffer.size() * sizeof(unsigned int),
+	//	grid.elementBuffer.data(),
+	//	GL_STATIC_DRAW);
+
 
 
 	// unbind buffers
@@ -187,6 +215,8 @@ bool ViewPort3D_T::InitializeOpenGL()
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
+
+	WorldGrid.Initialize();
 
 	isOpenGLInitialized = true;
 	return true;
@@ -219,8 +249,8 @@ void ViewPort3D_T::OnPaint(wxPaintEvent& event)
 	glBindVertexArray(gridVertexAttribObj);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gridElementBuffer);
 	glDrawElements(GL_POINTS, grid.elementBuffer.size(), GL_UNSIGNED_INT, 0);
-	//glDrawArrays(GL_LINES, 0, grid.vertexArray.size() / 6);
 
+	//WorldGrid.Draw();
 
 
 	SwapBuffers();
