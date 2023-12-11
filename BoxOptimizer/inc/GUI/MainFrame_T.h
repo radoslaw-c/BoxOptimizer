@@ -1,6 +1,7 @@
 #pragma once
 #include <wx/wx.h>
 #include <wx/splitter.h>
+#include <wx/textctrl.h>
 #include <fstream>
 
 #include "ViewPort3D_T.h"
@@ -22,11 +23,49 @@ private:
 	// event handling methods
 	void LoadDataFromCSV(wxCommandEvent& e);
 	void FindSolutions(wxCommandEvent& e);
+
+	// GUI definition methods
+	void InitializeUI();
+	void PolulateControlsPanel();
+
+	// GUI elements
+	wxSplitterWindow* mainSplitter{};
+	wxPanel* controlsPanel{};
+
+	struct Buttons_T
+	{
+		wxButton* loadDataButton{};
+		wxButton* solveProblemButton{};
+	};
+	Buttons_T Buttons;
+	
+	struct StaticBoxes_T
+	{
+		wxStaticBox* dataLoading{};
+	};
+	StaticBoxes_T StaticBoxes;
+
+	struct Sizers_T
+	{
+
+		wxBoxSizer* arrangeControlsSizer{};
+
+	};
+	Sizers_T Sizers;
+
+	struct TextCtrls_T
+	{
+		wxTextCtrl* dataPathTextCntrl{};
+	};
+	TextCtrls_T TextCtrls;
+
+
 };
 
 enum buttonIds 
 {
 	LOAD_DATA_BUTTON_ID = wxID_LAST + 1,
-	SOLVE_BUTTON_ID
+	SOLVE_BUTTON_ID,
+	DATA_PATH_TXTCTRL_ID
 };
 

@@ -38,7 +38,7 @@ void GUIObjects::Element_T::Draw()
 	//Primitive_T::Draw();
 	BindBuffers();
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, contour_elementArrayBuffer);
-	glLineWidth(2.0f);
+	glLineWidth(5.0f);
 	glDrawElements(GL_LINES, contour_elementBuffer.size(), GL_UNSIGNED_INT, 0);
 	glLineWidth(0.05f);
 }
