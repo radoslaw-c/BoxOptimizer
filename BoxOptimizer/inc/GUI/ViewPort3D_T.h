@@ -114,7 +114,11 @@ private:
 	unsigned int gridVertexBuffer{ 0 }, gridVertexAttribObj{ 0 },
 		gridElementBuffer{ 0 };
 
-	float angle_x{ 0 }, angle_y{ 0 };
+	glm::vec3 cameraPos = glm::vec3(0.0f, 1.2f, 1.1f);
+	glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+	glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+	wxPoint prevMousePos;
+	float yaw = 0, pitch = 0;
 
 	// screen objects
 	WorldGrid_T WorldGrid;
@@ -123,6 +127,7 @@ private:
 	//methods
 	void FindUniforms();
 	void OnKeyDown(wxKeyEvent& event);
+	void OnMouseMoved(wxMouseEvent& event);
 
 	void ApplyTransformations();
 };

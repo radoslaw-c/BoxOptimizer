@@ -21,6 +21,8 @@ ViewPort3D_T::ViewPort3D_T(wxWindow* parent, const wxGLAttributes& canvasAttrs) 
 
 	// bind for keyboard events
 	Bind(wxEVT_KEY_DOWN, &ViewPort3D_T::OnKeyDown, this);
+	// and mouse events as well
+	Bind(wxEVT_MOTION, &ViewPort3D_T::OnMouseMoved, this);
 }
 
 ViewPort3D_T::~ViewPort3D_T()
@@ -76,7 +78,7 @@ bool ViewPort3D_T::InitializeOpenGL()
 
 		void main()
 		{
-			gl_Position = projectionMatrix * cameraMatrix *  modelMatrix *vec4(aPos.x, aPos.y, aPos.z, 1.0);
+			gl_Position = projectionMatrix * cameraMatrix * vec4(aPos.x, aPos.y, aPos.z, 1.0);
 			vertexColor = aColor;
 		}
 	)";
@@ -199,23 +201,24 @@ void ViewPort3D_T::FindUniforms()
 
 void ViewPort3D_T::OnKeyDown(wxKeyEvent& event)
 {
+	const float cameraSpeed = 0.5f;
 	// TODO solve directions
 	switch (event.GetKeyCode())
 	{
-	case 'D':
-		angle_y -= 5.0f;
-		break;
-	
-	case 'A':
-		angle_y += 5.0f;
+	case 'W':
+		cameraPos += cameraSpeed * cameraFront;
 		break;
 
-	case 'W':
-		angle_x += 5.0f;
+	case 'A':
+		cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 		break;
 
 	case 'S':
-		angle_x -= 5.0f;
+		cameraPos -= cameraSpeed * cameraFront;
+		break;
+
+	case 'D':
+		cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 		break;
 
 	default:
@@ -226,25 +229,46 @@ void ViewPort3D_T::OnKeyDown(wxKeyEvent& event)
 	Refresh();
 }
 
+void ViewPort3D_T::OnMouseMoved(wxMouseEvent& event)
+{
+	wxPoint mousePos = wxGetMousePosition();
+	
+
+	if (wxGetMouseState().LeftIsDown())
+	{
+		const float sensivity = 0.05f;
+		const float delta_x = (prevMousePos.x - mousePos.x) * sensivity;
+		const float delta_y = -1 * (prevMousePos.y - mousePos.y) * sensivity;
+
+		yaw += delta_x;
+		pitch += delta_y;
+
+		if (pitch > 89.0f)
+			pitch = 89.0f;
+		if (pitch < -89.0f)
+			pitch = -89.0f;
+
+		glm::vec3 direction;
+		direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+		direction.y = sin(glm::radians(pitch));
+		direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+		cameraFront = glm::normalize(direction);
+	}
+	
+	
+	prevMousePos = mousePos;
+	Refresh();
+}
+
 void ViewPort3D_T::ApplyTransformations()
 {
-	// model matrix
-	// TODO probably won't be needed in the (more) final version of the software
-	auto modelMatrix = glm::mat4(1.0f);
-	modelMatrix = glm::rotate(modelMatrix, glm::radians(angle_x), glm::vec3(1.0f, 0.0f, 0.0f));
-	modelMatrix = glm::rotate(modelMatrix, glm::radians(angle_y), glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(u_modelMatrix, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+	auto cameraMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
-	// view matrix --- seems to be replaced by camera matrix
-
-	// camera matrix
-	auto cameraMatrix = glm::lookAt(glm::vec3(0.0f, 5.0f, 1.1f), glm::vec3(0.0f, 0.0f, 0.0f),
-		glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(u_cameraMatrix, 1, GL_FALSE, glm::value_ptr(cameraMatrix));
 
 	// projection matrix
 	auto projectionMatrix = glm::perspective(glm::radians(45.0f), (float)viewPortSize.x / (float)viewPortSize.y,
-		0.1f, 100.0f);
+		0.1f, 1000.0f);
 
 	glUniformMatrix4fv(u_projectionMatrix, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 }
