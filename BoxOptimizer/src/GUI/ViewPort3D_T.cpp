@@ -119,21 +119,31 @@ bool ViewPort3D_T::InitializeOpenGL()
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
-	float vertices[] = 
-	{
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.0f,  0.5f, 0.0f
-	};
+	//float vertices[] = 
+	//{
+	//	-0.5f, -0.5f, 0.0f,
+	//	 0.5f, -0.5f, 0.0f,
+	//	 0.0f,  0.5f, 0.0f
+	//};
 
 	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-
 	glBindVertexArray(VAO);
+
+	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, testCube.vertices.size() * sizeof(float), testCube.vertices.data(), GL_STATIC_DRAW);
+	
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+
+	glGenBuffers(1, &EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+		testCube.elementBuffer.size() * sizeof(unsigned int),
+		testCube.elementBuffer.data(), 
+		GL_STATIC_DRAW);
+	
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -155,7 +165,9 @@ void ViewPort3D_T::OnPaint(wxPaintEvent& event)
 
 	glUseProgram(shaderProgram);
 	glBindVertexArray(VAO);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	//glDrawArrays(GL_POINTS, 0, 4);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glDrawElements(GL_TRIANGLES, testCube.elementBuffer.size(), GL_UNSIGNED_INT, 0);
 
 	SwapBuffers();
 }
@@ -172,9 +184,6 @@ void ViewPort3D_T::OnSize(wxSizeEvent& event)
 		auto viewPortSize = event.GetSize() * GetContentScaleFactor();
 		glViewport(0, 0, viewPortSize.x, viewPortSize.y);
 	}
-
-	//auto test = this->GetClientSize();
-	//wxLogDebug("Current size: %d x %d", test.x, test.y);
 
 	event.Skip();
 }

@@ -17,7 +17,7 @@ MainFrame_T::MainFrame_T(const wxString& title, const wxPoint& pos, const wxSize
 
 	auto* leftPanel = new wxPanel(mainSplitter);
 
-	leftPanel->SetBackgroundColour(wxColor(0, 0, 255));
+	leftPanel->SetBackgroundColour(wxColor(0xd9, 0xdd, 0xdc));
 
 	mainSplitter->SetMinimumPaneSize(300);
 
