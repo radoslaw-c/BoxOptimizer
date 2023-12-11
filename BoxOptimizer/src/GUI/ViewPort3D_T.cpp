@@ -221,6 +221,12 @@ void ViewPort3D_T::OnKeyDown(wxKeyEvent& event)
 		cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 		break;
 
+
+	case 'R':
+		cameraPos = glm::vec3(1.0f, 1.0f, 1.0f);
+		cameraFront = glm::vec3(0.0f, 0.0f, 0.0f);
+		break;
+
 	default:
 		event.Skip();
 		break;
@@ -233,27 +239,56 @@ void ViewPort3D_T::OnMouseMoved(wxMouseEvent& event)
 {
 	wxPoint mousePos = wxGetMousePosition();
 
-	if (wxGetMouseState().MiddleIsDown())
+	if (wxGetMouseState().MiddleIsDown() && !wxGetKeyState(WXK_CONTROL) &&
+		!wxGetKeyState(WXK_SHIFT))
 	{
-		const float sensivity = 0.5f;
+		const float sensivity = 0.3f;
 		const auto pivotPoint = glm::vec4(cameraFront, 1.0f);
 		const float delta_x = (prevMousePos.x - mousePos.x) * sensivity;
 		
-		auto rotateMatrix = glm::mat4(1.0f);
 		auto tempPos = glm::vec4(cameraPos, 1.0f);
-		rotateMatrix = glm::rotate(rotateMatrix, glm::radians(delta_x), glm::vec3(0.0f, 1.0f, 0.0f));
-		tempPos = (rotateMatrix * (tempPos - pivotPoint)) + pivotPoint;
-
 		const float delta_y = (prevMousePos.y - mousePos.y) * sensivity;
-		rotateMatrix = glm::mat4(1.0f);
-		rotateMatrix = glm::rotate(rotateMatrix, glm::radians(-1.0f * delta_y), glm::vec3(-1.0f, 0.0f, 0.0f));
-		tempPos = (rotateMatrix * (tempPos - pivotPoint)) + pivotPoint;
 
+		auto rotationQuat1 = glm::angleAxis(glm::radians(delta_x), glm::vec3(0.0f, 1.0f, 0.0f));
+
+		auto rotVector = glm::cross((cameraPos - cameraFront), glm::vec3(0.0f, 1.0f, 0.0f));
+		auto rotationQuat2 = glm::angleAxis(glm::radians(-1.0f * delta_y), rotVector);
+		
+		auto rotationQuat = rotationQuat2 * rotationQuat1;
+		auto rotateMatrix = glm::mat4_cast(rotationQuat);
+
+		tempPos = (rotateMatrix * (tempPos - pivotPoint)) + pivotPoint;
 
 		cameraPos = tempPos;
-		wxLogDebug("camera pos x: %f", cameraPos.x);
+	}
+
+	if (wxGetMouseState().MiddleIsDown() && wxGetKeyState(WXK_SHIFT) && 
+		!wxGetKeyState(WXK_CONTROL))
+	{
+		 const float sensivity = 0.001f;
+		 const float delta_x = (prevMousePos.x - mousePos.x) * sensivity;
+		 const float delta_y = (prevMousePos.y - mousePos.y) * sensivity;
+		 const auto lookVector = glm::normalize(cameraPos - cameraFront);
+		 
+		 auto mat = glm::mat4(1.0f);
+		 auto horizTransVector = glm::cross(lookVector, glm::vec3(0.0f, 1.0f, 0.0f));
+		 horizTransVector = glm::normalize(horizTransVector);
+		 mat = glm::translate(mat, horizTransVector * -delta_x);
+		 
+		 auto mat2 = glm::mat4(1.0f);
+		 auto vec1 = glm::cross(lookVector, horizTransVector);
+		 mat2 = glm::translate(mat, vec1 * delta_y);
+
+		 cameraFront = mat2 * glm::vec4(cameraFront, 1.0f);
+		 cameraPos = mat2 * glm::vec4(cameraPos, 1.0f);
 	}
 	
+	if (wxGetMouseState().MiddleIsDown() && wxGetKeyState(WXK_CONTROL) &&
+		!wxGetKeyState(WXK_SHIFT))
+	{
+
+	}
+
 	prevMousePos = mousePos;
 	Refresh();
 }
@@ -262,7 +297,8 @@ void ViewPort3D_T::ApplyTransformations()
 {
 	auto cameraMatrix = glm::lookAt(cameraPos, cameraFront, cameraUp);
 
-	glUniformMatrix4fv(u_cameraMatrix, 1, GL_FALSE, glm::value_ptr(cameraMatrix));
+	 glUniformMatrix4fv(u_cameraMatrix, 1, GL_FALSE, glm::value_ptr(cameraMatrix));
+	//glUniformMatrix4fv(u_cameraMatrix, 1, GL_FALSE, glm::value_ptr(newCameraMat));
 
 	// projection matrix
 	auto projectionMatrix = glm::perspective(glm::radians(45.0f), (float)viewPortSize.x / (float)viewPortSize.y,
