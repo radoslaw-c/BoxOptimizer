@@ -1,0 +1,37 @@
+#pragma once
+#include <GL/glew.h>
+#include <vector>
+#include <array>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+class Primitive_T
+{
+public:
+	Primitive_T(GLenum drawingMode);
+	~Primitive_T();
+	void Draw();
+
+private:
+	// methods
+	void CreateBuffers();
+	void InitializeVertexArray();
+	void InitializeBuffers();
+	void BindBuffers();
+	void UnbindBuffers();
+
+	// fields
+	unsigned int arrayBuffer{ 0 }; // buffer storing vertex data: pos, color etc
+	unsigned int vertexArray{ 0 }; // buffer storing data layout of array buffer and the array buffer itself
+	unsigned int elementArrayBuffer{ 0 };	//buffer storing relations between vertices for drawing
+	std::array<unsigned int, 2> buffers{ 0,0 };
+
+	GLenum drawingMode;
+
+	// fields - data
+	std::vector<float> vertexData;
+	std::vector<unsigned int> elementBuffer;
+};
+
