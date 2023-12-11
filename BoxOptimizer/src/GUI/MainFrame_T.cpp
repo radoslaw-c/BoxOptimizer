@@ -17,6 +17,8 @@ MainFrame_T::MainFrame_T(const wxString& title, const wxPoint& pos, const wxSize
 
 	auto* leftPanel = new wxPanel(mainSplitter);
 
+	auto loadDataButton = new wxButton(leftPanel, LOAD_DATA_BUTTON_ID, "TEST");
+
 	leftPanel->SetBackgroundColour(wxColor(0xd9, 0xdd, 0xdc));
 
 	mainSplitter->SetMinimumPaneSize(300);
@@ -26,3 +28,19 @@ MainFrame_T::MainFrame_T(const wxString& title, const wxPoint& pos, const wxSize
 
 	wxLogDebug("splitter size: %d x %d", mainSplitter->GetSize().x, mainSplitter->GetSize().y);
 }
+
+void MainFrame_T::LoadDataFromCSV(wxCommandEvent& e)
+{
+	auto fileDialog = wxFileDialog(this, ("Open data file"), "", "", "CSV files (*.csv) | *.csv",
+		wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+	
+	if (fileDialog.ShowModal() == wxID_CANCEL)
+		return;
+
+	auto dataFilePath = std::string(fileDialog.GetPath().mb_str());
+	DataParser = CSVParser_T(dataFilePath);
+}
+
+wxBEGIN_EVENT_TABLE(MainFrame_T, wxFrame)
+EVT_BUTTON(LOAD_DATA_BUTTON_ID, MainFrame_T::LoadDataFromCSV)
+wxEND_EVENT_TABLE()

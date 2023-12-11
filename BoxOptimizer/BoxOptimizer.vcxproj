@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\CSVParser_T.cpp" />
     <ClCompile Include="src\GUI\screenObjects\Element_T.cpp" />
     <ClCompile Include="src\GUI\screenObjects\Primitive_T.cpp" />
     <ClCompile Include="src\GUI\MainFrame_T.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="src\GUI\screenObjects\WorldGrid_T.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\CSVParser_T.h" />
     <ClInclude Include="inc\GUI\screenObjects\Element_T.h" />
     <ClInclude Include="inc\GUI\Application.h" />
     <ClInclude Include="inc\ConsoleVisualiser_T.h" />
