@@ -20,6 +20,29 @@ Element_T::Element_T(float pos_x, float pos_y, float pos_z,
 	InitializeVertexData();
 }
 
+void GUIObjects::Element_T::Initialize()
+{
+	Primitive_T::Initialize();
+
+	glGenBuffers(1, &contour_elementArrayBuffer);
+	
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, contour_elementArrayBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, contour_elementBuffer.size() * sizeof(unsigned int),
+		contour_elementBuffer.data(), GL_STATIC_DRAW);
+	
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+void GUIObjects::Element_T::Draw()
+{
+	//Primitive_T::Draw();
+	BindBuffers();
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, contour_elementArrayBuffer);
+	glLineWidth(2.0f);
+	glDrawElements(GL_LINES, contour_elementBuffer.size(), GL_UNSIGNED_INT, 0);
+	glLineWidth(0.05f);
+}
+
 void GUIObjects::Element_T::SetColor(int red, int green, int blue)
 {
 	this->red = static_cast<float> (red) / 255.0f;
@@ -66,6 +89,26 @@ void GUIObjects::Element_T::InitializeVertexData()
 
 		4, 5, 6,
 		6, 7, 4
+	};
+
+	contour_elementBuffer =
+	{
+		0, 1,
+		0, 4,
+
+		1, 2,
+		1, 5,
+		
+		2, 3,
+		2, 6,
+
+		3, 0,
+		3, 7,
+
+		4, 5,
+		5, 6,
+		6, 7,
+		7, 4
 	};
 
 }
