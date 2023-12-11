@@ -1,6 +1,6 @@
 #include "screenObjects\WorldGrid_T.h"
 
-WorldGrid_T::WorldGrid_T() : Primitive_T(GL_POINTS)
+WorldGrid_T::WorldGrid_T() : Primitive_T(GL_LINES)
 {
 	// it first calls constructor of the partent class
 	// in this case construnctor of Primitive_T
@@ -11,7 +11,7 @@ WorldGrid_T::WorldGrid_T() : Primitive_T(GL_POINTS)
 void WorldGrid_T::InitializeVertexData()
 {
 	vertexData.resize(numberOfVerts * numberOfVerts * 6);
-	elementBuffer.resize(numberOfVerts * numberOfVerts * 2);
+	elementBuffer.resize(numberOfVerts * (numberOfVerts - 1) * 4);
 
 	float step = 2 * (float)maxDist / (numberOfVerts - 1);
 
@@ -37,8 +37,25 @@ void WorldGrid_T::InitializeVertexData()
 		}
 	}
 
-	for (int idx = 0; idx < elementBuffer.size(); ++idx)
+	std::size_t lineEndpointIdx = 0;
+	
+	for (std::size_t row = 0; row < numberOfVerts; ++row)
 	{
-		elementBuffer[idx] = idx;
+		for (std::size_t column = 0; column < numberOfVerts - 1; ++column)
+		{
+			elementBuffer[lineEndpointIdx++] = row * numberOfVerts + column;
+			elementBuffer[lineEndpointIdx++] = row * numberOfVerts + column + 1;
+		}
 	}
+
+	for (std::size_t row = 0; row < numberOfVerts - 1; ++row)
+	{
+		for (std::size_t column = 0; column < numberOfVerts; ++column)
+		{
+			elementBuffer[lineEndpointIdx++] = row * numberOfVerts + column;
+			elementBuffer[lineEndpointIdx++] = (row + 1) * numberOfVerts + column;
+		}
+	}
+
+
 }
