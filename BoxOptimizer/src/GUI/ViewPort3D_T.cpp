@@ -334,6 +334,8 @@ void ViewPort3D_T::InitializeSolutionElements(const Solution_T& Solution)
 		SolutionElements.push_back(elementToInsert);
 	}
 
+	SolutionElements.front().SetColor(0, 255, 0);
+
 	// initialize for OpenGL
 	for (auto& Element : SolutionElements)
 	{

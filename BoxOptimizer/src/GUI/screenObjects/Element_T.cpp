@@ -2,7 +2,8 @@
 
 using GUIObjects::Element_T;
 Element_T::Element_T(float pos_x, float pos_y, float pos_z,
-	float width, float height, float length) : Primitive_T(GL_TRIANGLES)
+	float width, float height, float length,
+	unsigned int red, unsigned int green, unsigned int blue) : Primitive_T(GL_TRIANGLES)
 {
 	elementPosition.pos_width = pos_x;
 	elementPosition.pos_height = pos_y;
@@ -12,6 +13,19 @@ Element_T::Element_T(float pos_x, float pos_y, float pos_z,
 	this->height = height;
 	this->length = length;
 
+	this->red = static_cast<float> (red) / 255.0f;
+	this->green = static_cast<float> (green) / 255.0f;
+	this->blue = static_cast<float> (blue) / 255.0f;
+
+	InitializeVertexData();
+}
+
+void GUIObjects::Element_T::SetColor(int red, int green, int blue)
+{
+	this->red = static_cast<float> (red) / 255.0f;
+	this->green = static_cast<float> (green) / 255.0f;
+	this->blue = static_cast<float> (blue) / 255.0f;
+
 	InitializeVertexData();
 }
 
@@ -20,16 +34,16 @@ void GUIObjects::Element_T::InitializeVertexData()
 	vertexData =
 	{
 		// bottom
-		elementPosition.pos_width, elementPosition.pos_height, elementPosition.pos_length, 1.0f, 0.0f, 0.0f,	// 0
-		elementPosition.pos_width, elementPosition.pos_height, elementPosition.pos_length + length, 1.0f, 0.0f, 0.0f,	// 1
-		elementPosition.pos_width + width, elementPosition.pos_height, elementPosition.pos_length + length, 1.0f, 0.0f, 0.0f,	// 2
-		elementPosition.pos_width + width, elementPosition.pos_height, elementPosition.pos_length, 1.0f, 0.0f, 0.0f,	// 3
+		elementPosition.pos_width, elementPosition.pos_height, elementPosition.pos_length, red, green, blue,	// 0
+		elementPosition.pos_width, elementPosition.pos_height, elementPosition.pos_length + length, red, green, blue,	// 1
+		elementPosition.pos_width + width, elementPosition.pos_height, elementPosition.pos_length + length, red, green, blue,	// 2
+		elementPosition.pos_width + width, elementPosition.pos_height, elementPosition.pos_length, red, green, blue,	// 3
 
 		// up
-		elementPosition.pos_width, elementPosition.pos_height + height, elementPosition.pos_length, 1.0f, 0.0f, 0.0f,	// 4
-		elementPosition.pos_width, elementPosition.pos_height + height, elementPosition.pos_length + length, 1.0f, 0.0f, 0.0f,	// 5
-		elementPosition.pos_width + width, elementPosition.pos_height + height, elementPosition.pos_length + length, 1.0f, 0.0f, 0.0f,	// 6
-		elementPosition.pos_width + width, elementPosition.pos_height + height, elementPosition.pos_length, 1.0f, 0.0f, 0.0f	// 7
+		elementPosition.pos_width, elementPosition.pos_height + height, elementPosition.pos_length, red, green, blue,	// 4
+		elementPosition.pos_width, elementPosition.pos_height + height, elementPosition.pos_length + length, red, green, blue,	// 5
+		elementPosition.pos_width + width, elementPosition.pos_height + height, elementPosition.pos_length + length, red, green, blue,	// 6
+		elementPosition.pos_width + width, elementPosition.pos_height + height, elementPosition.pos_length, red, green, blue	// 7
 	};
 	
 	elementBuffer =

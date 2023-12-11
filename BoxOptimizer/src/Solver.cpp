@@ -9,8 +9,8 @@ Solver_T::Solver_T()
 void Solver_T::InitializeElementsManually()
 {
 	ElementList.push_back(Element_T(100, 500, 10, 1));
-	ElementList.push_back(Element_T(100, 500, 10, 2));
-	//ElementList.push_back(Element_T(100, 500, 10, 3));
+	ElementList.push_back(Element_T(100, 250, 10, 2));
+	ElementList.push_back(Element_T(100, 250, 10, 3));
 	//ElementList.push_back(Element_T(5, 5, 1, 4));
 	//ElementList.push_back(Element_T(5, 5, 1, 5));
 	//ElementList.push_back(Element_T(5, 5, 1, 6));
@@ -26,7 +26,7 @@ void Solver_T::InitializeElementsManually()
 	//ElementList.push_back(Element_T(5, 5, 1, 16));
 	//ElementList.push_back(Element_T(5, 5, 1, 17));
 	//ElementList.push_back(Element_T(5, 5, 1, 18));
-	numberOfElements = 2;
+	numberOfElements = 3;
 
 	CalculateTotalElementArea();
 }
