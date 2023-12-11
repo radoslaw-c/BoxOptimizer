@@ -71,12 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)inc\external\msvc;$(ProjectDir)inc;$(ProjectDir)inc\external;$(IncludePath)</IncludePath>
-    <SourcePath>$(ProjectDir)src;$(ProjectDir)solver;$(SourcePath)</SourcePath>
+    <IncludePath>$(ProjectDir)inc\GUI;$(ProjectDir)inc\external\msvc;$(ProjectDir)inc;$(ProjectDir)inc\external;$(IncludePath)</IncludePath>
+    <SourcePath>ProjectDir)src\GUI;$(ProjectDir)src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)inc\external\msvc;$(ProjectDir)inc;$(ProjectDir)inc\external;$(IncludePath)</IncludePath>
-    <SourcePath>$(ProjectDir)src;$(ProjectDir)solver;$(SourcePath)</SourcePath>
+    <IncludePath>$(ProjectDir)inc\GUI;$(ProjectDir)inc\external\msvc;$(ProjectDir)inc;$(ProjectDir)inc\external;$(IncludePath)</IncludePath>
+    <SourcePath>ProjectDir)src\GUI;$(ProjectDir)src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -139,6 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\GUI\MainFrame_T.cpp" />
+    <ClCompile Include="src\GUI\Application.cpp" />
     <ClCompile Include="BoxOptimizer.cpp" />
     <ClCompile Include="src\ConsoleVisualiser_T.cpp" />
     <ClCompile Include="src\CalculateOutlineArea.cpp" />
@@ -149,8 +151,10 @@
     <ClCompile Include="src\FindSolution.cpp" />
     <ClCompile Include="src\Solver.cpp" />
     <ClCompile Include="src\Element.cpp" />
+    <ClCompile Include="src\GUI\ViewPort3D_T.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\GUI\Application.h" />
     <ClInclude Include="inc\ConsoleVisualiser_T.h" />
     <ClInclude Include="inc\Calibrations_T.h" />
     <ClInclude Include="inc\Element.h" />
@@ -159,6 +163,8 @@
     <ClInclude Include="inc\Solution_T.h" />
     <ClInclude Include="inc\Solver.h" />
     <ClInclude Include="inc\CalculateOutlineArea.h" />
+    <ClInclude Include="inc\GUI\MainFrame_T.h" />
+    <ClInclude Include="inc\GUI\ViewPort3D_T.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
