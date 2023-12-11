@@ -134,89 +134,13 @@ bool ViewPort3D_T::InitializeOpenGL()
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, testCube.vertices.size() * sizeof(float), testCube.vertices.data(), GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	// colors
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-
-	glGenBuffers(1, &EBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-		testCube.elementBuffer.size() * sizeof(unsigned int),
-		testCube.elementBuffer.data(), 
-		GL_STATIC_DRAW);
-	
-
-
-
-
-	 // pass grid data
-	 glGenVertexArrays(1, &gridVertexAttribObj);
-	 glBindVertexArray(gridVertexAttribObj);
-	 
-	 glGenBuffers(1, &gridVertexBuffer);
-	 glBindBuffer(GL_ARRAY_BUFFER, gridVertexBuffer);
-	 glBufferData(GL_ARRAY_BUFFER, grid.vertexArray.size() * sizeof(float), grid.vertexArray.data(), GL_STATIC_DRAW);
-	 
-	 glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-	 glEnableVertexAttribArray(0);
-	 
-	 glGenBuffers(1, &gridElementBuffer);
-	 glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gridElementBuffer);
-	 glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-	 	grid.elementBuffer.size() * sizeof(unsigned int),
-	 	grid.elementBuffer.data(),
-	 	GL_STATIC_DRAW);
-	 
-	 // colors
-	 glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-	 glEnableVertexAttribArray(1);
-
-	//// CreateBuffers()
-	//glGenVertexArrays(1, &gridVertexAttribObj);
-	//glGenBuffers(1, &gridVertexBuffer);
-	//glGenBuffers(1, &gridElementBuffer);
-	//
-	////InitializeVertexArray()
-	//glBindVertexArray(gridVertexAttribObj);
-	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-	//glEnableVertexAttribArray(0);
-	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-	//glEnableVertexAttribArray(1);
-	//
-	////InitializeBuffers()
-	//glBindVertexArray(gridVertexAttribObj);
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gridElementBuffer);
-	//glBindBuffer(GL_ARRAY_BUFFER, gridVertexBuffer);
-	//
-	//glBufferData(GL_ARRAY_BUFFER, grid.vertexArray.size() * sizeof(float), grid.vertexArray.data(), GL_STATIC_DRAW);
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-	//	grid.elementBuffer.size() * sizeof(unsigned int),
-	//	grid.elementBuffer.data(),
-	//	GL_STATIC_DRAW);
-
-
-
-	// unbind buffers
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-
 	FindUniforms();
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
 	WorldGrid.Initialize();
+	Element.Initialize();
 
 	isOpenGLInitialized = true;
 	return true;
@@ -242,16 +166,8 @@ void ViewPort3D_T::OnPaint(wxPaintEvent& event)
 
 	ApplyTransformations();
 
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glDrawElements(GL_TRIANGLES, testCube.elementBuffer.size(), GL_UNSIGNED_INT, 0);
-
-	//glBindVertexArray(gridVertexAttribObj);
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gridElementBuffer);
-	//glDrawElements(GL_POINTS, grid.elementBuffer.size(), GL_UNSIGNED_INT, 0);
-
 	WorldGrid.Draw();
-
+	Element.Draw();
 
 	SwapBuffers();
 }
@@ -331,39 +247,4 @@ void ViewPort3D_T::ApplyTransformations()
 		0.1f, 100.0f);
 
 	glUniformMatrix4fv(u_projectionMatrix, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
-}
-
-Grid_T::Grid_T()
-{
-	vertexArray.resize(numberOfVerts * numberOfVerts * 6);
-	elementBuffer.resize(numberOfVerts * numberOfVerts * 2);
-
-	float step = 2 * (float)maxDist / (numberOfVerts - 1);
-
-	for (int row = 0; row < numberOfVerts; ++row)
-	{
-		for (int column = 0; column < numberOfVerts; ++column)
-		{
-			auto x = -1 * maxDist + column * step;
-			auto y = 0.0f;
-			auto z = -1 * maxDist + row * step;
-
-			auto r = 1.0f;
-			auto g = 1.0f;
-			auto b = 1.0;
-
-			const auto vertexStrartIndex = (row * numberOfVerts + column) * 6;
-			vertexArray[vertexStrartIndex + 0] = x;
-			vertexArray[vertexStrartIndex + 1] = y;
-			vertexArray[vertexStrartIndex + 2] = z;
-			vertexArray[vertexStrartIndex + 3] = r;
-			vertexArray[vertexStrartIndex + 4] = g;
-			vertexArray[vertexStrartIndex + 5] = b;
-		}
-	}
-
-	for (int idx = 0; idx < elementBuffer.size(); ++idx)
-	{
-		elementBuffer[idx] = idx;
-	}
 }

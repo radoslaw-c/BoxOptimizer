@@ -85,18 +85,6 @@ public:
 	};
 };
 
-class Grid_T
-{
-public:
-	Grid_T();
-
-	std::vector<float> vertexArray;
-	std::vector<unsigned int> elementBuffer;
-
-private:
-	int numberOfVerts = 100;
-	int maxDist = 20; //dist range <-1000; 1000>
-};
 
 class ViewPort3D_T : public wxGLCanvas
 {
@@ -114,7 +102,6 @@ private:
 	wxGLContext* openGLContext{ NULL };
 	bool isOpenGLInitialized{ false };
 	Cube_T testCube = Cube_T();
-	Grid_T grid = Grid_T();
 
 	GLint u_modelMatrix{ -1 };
 	GLint u_cameraMatrix{ -1 };

@@ -30,8 +30,8 @@ protected:
 	std::array<unsigned int, 2> buffers{ 0,0 };
 
 	// fields - data
-	std::vector<float> vertexData; 
-	std::vector<unsigned int> elementBuffer;
+	std::vector<float> vertexData;	// buffer storing vertex-related information, such as positions and/or color
+	std::vector<unsigned int> elementBuffer;	// buffer storing relations between vertices to be drawn
 
 private:
 	GLenum drawingMode;
