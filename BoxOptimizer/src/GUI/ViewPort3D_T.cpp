@@ -18,6 +18,9 @@ ViewPort3D_T::ViewPort3D_T(wxWindow* parent, const wxGLAttributes& canvasAttrs) 
 	// binding methods to events
 	Bind(wxEVT_SIZE, &ViewPort3D_T::OnSize, this);
 	Bind(wxEVT_PAINT, &ViewPort3D_T::OnPaint, this);
+
+	// bind for keyboard events
+	Bind(wxEVT_KEY_DOWN, &ViewPort3D_T::OnKeyDown, this);
 }
 
 ViewPort3D_T::~ViewPort3D_T()
@@ -63,18 +66,30 @@ bool ViewPort3D_T::InitializeOpenGL()
 	constexpr auto vertexShaderSource = R"(
 		#version 330 core
 		layout (location = 0) in vec3 aPos;
+		layout (location = 1) in vec3 aColor;
+
+		uniform mat4 modelMatrix;
+		uniform mat4 viewMatrix;
+		uniform mat4 projectionMatrix;
+
+		out vec3 vertexColor;
+
 		void main()
 		{
-			gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+			gl_Position = modelMatrix * vec4(aPos.x, aPos.y, aPos.z, 1.0);
+			vertexColor = aColor;
 		}
 	)";
 
 	constexpr auto fragmentShaderSource = R"(
 		#version 330 core
 		out vec4 FragColor;
+
+		in vec3 vertexColor;
+
 		void main()
 		{
-			FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+			FragColor = vec4(vertexColor, 1.0f);
 		}
 	)";
 
@@ -119,13 +134,6 @@ bool ViewPort3D_T::InitializeOpenGL()
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
-	//float vertices[] = 
-	//{
-	//	-0.5f, -0.5f, 0.0f,
-	//	 0.5f, -0.5f, 0.0f,
-	//	 0.0f,  0.5f, 0.0f
-	//};
-
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 
@@ -133,8 +141,12 @@ bool ViewPort3D_T::InitializeOpenGL()
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, testCube.vertices.size() * sizeof(float), testCube.vertices.data(), GL_STATIC_DRAW);
 	
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+
+	// colors
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
 
 	glGenBuffers(1, &EBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -147,6 +159,11 @@ bool ViewPort3D_T::InitializeOpenGL()
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+
+	FindUniforms();
+
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_GREATER);
 
 	isOpenGLInitialized = true;
 	return true;
@@ -161,11 +178,18 @@ void ViewPort3D_T::OnPaint(wxPaintEvent& event)
 
 	SetCurrent(*openGLContext);
 	
-	glClear(GL_COLOR_BUFFER_BIT);
+	// check for image depth
+	GLint depthFuncValue;
+	glGetIntegerv(GL_DEPTH_FUNC, &depthFuncValue);
+	glClearDepth(depthFuncValue == GL_LEQUAL ? 1.0f : 0.0f);
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glUseProgram(shaderProgram);
+
+	ApplyTransformations();
+
 	glBindVertexArray(VAO);
-	//glDrawArrays(GL_POINTS, 0, 4);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glDrawElements(GL_TRIANGLES, testCube.elementBuffer.size(), GL_UNSIGNED_INT, 0);
 
@@ -181,9 +205,65 @@ void ViewPort3D_T::OnSize(wxSizeEvent& event)
 
 	if (isOpenGLInitialized)
 	{
-		auto viewPortSize = event.GetSize() * GetContentScaleFactor();
+		viewPortSize = event.GetSize() * GetContentScaleFactor();
 		glViewport(0, 0, viewPortSize.x, viewPortSize.y);
 	}
 
 	event.Skip();
+}
+
+void ViewPort3D_T::FindUniforms()
+{
+	// TODO add check for -1 -- invalid OR not found
+
+	u_modelMatrix = glGetUniformLocation(shaderProgram, "modelMatrix");
+	u_viewMatrix = glGetUniformLocation(shaderProgram, "viewMatrix");
+	u_projectionMatrix = glGetUniformLocation(shaderProgram, "projectionMatrix");
+}
+
+void ViewPort3D_T::OnKeyDown(wxKeyEvent& event)
+{
+	// TODO solve directions
+	switch (event.GetKeyCode())
+	{
+	case 'D':
+		angle_y += 5.0f;
+		break;
+	
+	case 'A':
+		angle_y -= 5.0f;
+		break;
+
+	case 'W':
+		angle_x -= 5.0f;
+		break;
+
+	case 'S':
+		angle_x += 5.0f;
+		break;
+
+	default:
+		event.Skip();
+		break;
+	}
+
+	Refresh();
+}
+
+void ViewPort3D_T::ApplyTransformations()
+{
+	// model matrix
+	// TODO probably won't be needed in the (more) final version of the software
+	auto modelMatrix = glm::mat4(1.0f);
+	modelMatrix = glm::rotate(modelMatrix, glm::radians(angle_x), glm::vec3(1.0f, 0.0f, 0.0f));
+	modelMatrix = glm::rotate(modelMatrix, glm::radians(angle_y), glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(u_modelMatrix, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+
+	// view matrix
+	// TODO coming soon ;)
+
+	// projection matrix
+	auto projectionMatrix = glm::perspective(glm::radians(45.0f), (float)viewPortSize.y / viewPortSize.x,
+		0.1f, 100.0f);
+
 }
