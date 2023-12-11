@@ -246,11 +246,11 @@ void ViewPort3D_T::OnPaint(wxPaintEvent& event)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glDrawElements(GL_TRIANGLES, testCube.elementBuffer.size(), GL_UNSIGNED_INT, 0);
 
-	glBindVertexArray(gridVertexAttribObj);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gridElementBuffer);
-	glDrawElements(GL_POINTS, grid.elementBuffer.size(), GL_UNSIGNED_INT, 0);
+	//glBindVertexArray(gridVertexAttribObj);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gridElementBuffer);
+	//glDrawElements(GL_POINTS, grid.elementBuffer.size(), GL_UNSIGNED_INT, 0);
 
-	//WorldGrid.Draw();
+	WorldGrid.Draw();
 
 
 	SwapBuffers();
