@@ -143,6 +143,7 @@ bool ViewPort3D_T::InitializeOpenGL()
 
 	WorldGrid.Initialize();
 	Element.Initialize();
+	Element2.Initialize();
 
 	isOpenGLInitialized = true;
 	return true;
@@ -170,6 +171,7 @@ void ViewPort3D_T::OnPaint(wxPaintEvent& event)
 
 	WorldGrid.Draw();
 	Element.Draw();
+	Element2.Draw();
 
 	SwapBuffers();
 }
@@ -286,7 +288,7 @@ void ViewPort3D_T::OnMouseMoved(wxMouseEvent& event)
 	if (wxGetMouseState().MiddleIsDown() && wxGetKeyState(WXK_CONTROL) &&
 		!wxGetKeyState(WXK_SHIFT))
 	{
-
+		
 	}
 
 	prevMousePos = mousePos;

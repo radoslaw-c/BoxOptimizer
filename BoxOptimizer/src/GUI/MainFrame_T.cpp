@@ -21,7 +21,7 @@ MainFrame_T::MainFrame_T(const wxString& title, const wxPoint& pos, const wxSize
 
 	mainSplitter->SetMinimumPaneSize(300);
 
-	mainSplitter->SetSashGravity(0.5f);
+	mainSplitter->SetSashGravity(0.0f);
 	mainSplitter->SplitVertically(leftPanel, ViewPort3D);
 
 	wxLogDebug("splitter size: %d x %d", mainSplitter->GetSize().x, mainSplitter->GetSize().y);
