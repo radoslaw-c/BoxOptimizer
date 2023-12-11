@@ -33,20 +33,24 @@ void Solver_T::InitializeElementsManually()
 
 void Solver_T::LoadElementData(const DataFrame_T& data)
 {
-	ElementList.resize(2 * data.ElementsCount());
+	ElementList.reserve(2 * data.ElementsCount());
 	numberOfElements = data.ElementsCount();
 	int elementID = 0;
 
 	for (unsigned int it = 0; it < data.ElementsCount(); ++it)
 	{
-		ElementList[it] = Element_T
+		auto ElementToInsert = Element_T
 		(
 			data.Width(it),
 			data.Length(it),
 			data.Height(it),
 			elementID++
 		);
+
+		ElementList.push_back(ElementToInsert);
 	}
+
+	CalculateTotalElementArea();
 }
 
 Solution_T Solver_T::Solve()
