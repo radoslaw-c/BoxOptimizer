@@ -93,7 +93,7 @@ public:
 
 private:
 	int numberOfVerts = 100;
-	int maxDist = 50; //dist range <-1000; 1000>
+	int maxDist = 20; //dist range <-1000; 1000>
 };
 
 class ViewPort3D_T : public wxGLCanvas

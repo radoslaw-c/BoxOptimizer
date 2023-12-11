@@ -257,19 +257,19 @@ void ViewPort3D_T::OnKeyDown(wxKeyEvent& event)
 	switch (event.GetKeyCode())
 	{
 	case 'D':
-		angle_y += 5.0f;
+		angle_y -= 5.0f;
 		break;
 	
 	case 'A':
-		angle_y -= 5.0f;
+		angle_y += 5.0f;
 		break;
 
 	case 'W':
-		angle_x -= 5.0f;
+		angle_x += 5.0f;
 		break;
 
 	case 'S':
-		angle_x += 5.0f;
+		angle_x -= 5.0f;
 		break;
 
 	default:
@@ -292,13 +292,14 @@ void ViewPort3D_T::ApplyTransformations()
 	// view matrix --- seems to be replaced by camera matrix
 
 	// camera matrix
-	auto cameraMatrix = glm::lookAt(glm::vec3(0.0f, 20.0f, 1.1f), glm::vec3(0.0f, 0.0f, 0.0f),
+	auto cameraMatrix = glm::lookAt(glm::vec3(0.0f, 5.0f, 1.1f), glm::vec3(0.0f, 0.0f, 0.0f),
 		glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(u_cameraMatrix, 1, GL_FALSE, glm::value_ptr(cameraMatrix));
 
 	// projection matrix
-	auto projectionMatrix = glm::perspective(glm::radians(45.0f), (float)viewPortSize.y / (float)viewPortSize.x,
+	auto projectionMatrix = glm::perspective(glm::radians(45.0f), (float)viewPortSize.x / (float)viewPortSize.y,
 		0.1f, 100.0f);
+
 	glUniformMatrix4fv(u_projectionMatrix, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 }
 
