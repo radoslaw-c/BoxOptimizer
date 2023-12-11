@@ -22,11 +22,11 @@ public:
 	bool IsValid() const { return layerValid; }
 	Node_T* SolutionNode;	// TODO to be changed to the const Node_T*
 	int id = -1;
-	float getOutlineArea() { return outlineArea; }
-
+	
 	// getters
 	std::vector<const Node_T*> SolutionNodes() const { return solutionNodes; };
-	
+	float getOutlineArea() const { return outlineArea; }
+	BoxDimmensions BoxDimmensions() const { return CalculateBoxDimmensions(SolutionNode); };
 
 private:
 	void Classify();

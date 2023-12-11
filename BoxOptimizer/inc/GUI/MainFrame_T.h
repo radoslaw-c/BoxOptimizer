@@ -57,6 +57,7 @@ private:
 	struct TextCtrls_T
 	{
 		wxTextCtrl* dataPathTextCntrl{};
+		wxTextCtrl* dimmensionsTextCntrl{};
 	};
 	TextCtrls_T TextCtrls;
 

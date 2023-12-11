@@ -23,11 +23,19 @@ void MainFrame_T::LoadDataFromCSV(wxCommandEvent& e)
 void MainFrame_T::FindSolutions(wxCommandEvent& e)
 {
 	auto mainSolver = Solver_T();
-	//mainSolver.InitializeElementsManually();
 	mainSolver.LoadElementData(DataParser.DataFrame());
 	Solution = mainSolver.Solve();
 
 	ViewPort3D->DrawSolution(Solution);
+
+	BoxDimmensions boxDimmensions = Solution.BoxDimmensions();
+
+	wxString dimmensions = "Dimmensions: ";
+	dimmensions << boxDimmensions.boxWidth << " x "
+		<< boxDimmensions.boxLength << " x "
+		<< boxDimmensions.boxLength;
+
+	TextCtrls.dimmensionsTextCntrl->ChangeValue(dimmensions);
 }
 
 void MainFrame_T::InitializeUI()
@@ -82,6 +90,10 @@ void MainFrame_T::PopulateResultsArea()
 
 	Buttons.solveProblemButton = new wxButton(controlsPanel, SOLVE_BUTTON_ID, "Solve!");
 	verticalResultsSizer->Add(Buttons.solveProblemButton);
+
+	TextCtrls.dimmensionsTextCntrl = new wxTextCtrl(controlsPanel, wxID_ANY,
+		wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY);
+	verticalResultsSizer->Add(TextCtrls.dimmensionsTextCntrl, 1, wxTOP | wxEXPAND, 5);	
 
 	Sizers.mainVerticalSizer->Add(verticalResultsSizer, 0, wxEXPAND);
 }
