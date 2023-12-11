@@ -2,9 +2,13 @@
 
 bool App::OnInit()
 {
-	MainFrame_T* mainWindow = new MainFrame_T("Box Optimizer ALFA", wxDefaultPosition,
-		wxDefaultSize);
+	if (!wxApp::OnInit())
+		return false;
 
+	MainFrame_T* mainWindow = new MainFrame_T("Box Optimizer ALFA", wxDefaultPosition,
+		wxSize(1280, 720));
+
+	mainWindow->SetMinClientSize(wxSize(940, 480));
 	mainWindow->Show();
 	return true;
 }
