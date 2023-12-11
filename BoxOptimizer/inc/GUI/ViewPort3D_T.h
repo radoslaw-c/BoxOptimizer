@@ -122,7 +122,8 @@ private:
 
 	// screen objects
 	WorldGrid_T WorldGrid;
-	GUIObjects::Element_T Element;
+	GUIObjects::Element_T Element = GUIObjects::Element_T(0.0f, 0.0f, 0.0f);
+	GUIObjects::Element_T Element2 = GUIObjects::Element_T(0.0f, 0.05f, 0.0f);;
 
 	//methods
 	void FindUniforms();
